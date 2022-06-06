@@ -9,21 +9,23 @@
 /* Begin PBXBuildFile section */
 		130554DC284E6ABC009F6381 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130554DB284E6ABC009F6381 /* AppDelegate.swift */; };
 		130554DE284E6ABC009F6381 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130554DD284E6ABC009F6381 /* SceneDelegate.swift */; };
-		130554E0284E6ABC009F6381 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130554DF284E6ABC009F6381 /* ViewController.swift */; };
+		130554E0284E6ABC009F6381 /* GameMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130554DF284E6ABC009F6381 /* GameMainViewController.swift */; };
 		130554E3284E6ABC009F6381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 130554E1284E6ABC009F6381 /* Main.storyboard */; };
 		130554E5284E6ABE009F6381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 130554E4284E6ABE009F6381 /* Assets.xcassets */; };
 		130554E8284E6ABE009F6381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 130554E6284E6ABE009F6381 /* LaunchScreen.storyboard */; };
+		13D2CF54284E7F970085DDAD /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13D2CF53284E7F970085DDAD /* Sounds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		130554D8284E6ABC009F6381 /* MemoryMatrix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryMatrix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		130554DB284E6ABC009F6381 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		130554DD284E6ABC009F6381 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		130554DF284E6ABC009F6381 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		130554DF284E6ABC009F6381 /* GameMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMainViewController.swift; sourceTree = "<group>"; };
 		130554E2284E6ABC009F6381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		130554E4284E6ABE009F6381 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		130554E7284E6ABE009F6381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		130554E9284E6ABE009F6381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13D2CF53284E7F970085DDAD /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +60,8 @@
 			children = (
 				130554DB284E6ABC009F6381 /* AppDelegate.swift */,
 				130554DD284E6ABC009F6381 /* SceneDelegate.swift */,
-				130554DF284E6ABC009F6381 /* ViewController.swift */,
+				130554DF284E6ABC009F6381 /* GameMainViewController.swift */,
+				13D2CF53284E7F970085DDAD /* Sounds */,
 				130554E1284E6ABC009F6381 /* Main.storyboard */,
 				130554E4284E6ABE009F6381 /* Assets.xcassets */,
 				130554E6284E6ABE009F6381 /* LaunchScreen.storyboard */,
@@ -127,6 +130,7 @@
 			files = (
 				130554E8284E6ABE009F6381 /* LaunchScreen.storyboard in Resources */,
 				130554E5284E6ABE009F6381 /* Assets.xcassets in Resources */,
+				13D2CF54284E7F970085DDAD /* Sounds in Resources */,
 				130554E3284E6ABC009F6381 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				130554E0284E6ABC009F6381 /* ViewController.swift in Sources */,
+				130554E0284E6ABC009F6381 /* GameMainViewController.swift in Sources */,
 				130554DC284E6ABC009F6381 /* AppDelegate.swift in Sources */,
 				130554DE284E6ABC009F6381 /* SceneDelegate.swift in Sources */,
 			);
