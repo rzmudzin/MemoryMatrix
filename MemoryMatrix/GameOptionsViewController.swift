@@ -55,8 +55,15 @@ class GameOptionsViewController: UIViewController {
 		soundEnabledLabel.text = "Sound Enabled"
 		topHeaderImage.image = UIImage(named: "options")
 		
+		selectIconsButton.addTarget(self, action: #selector(onSelectIcon), for: .touchUpInside)
+		
 		_ = applyConstraints()
 		print("View Did Load Complete")
+	}
+	
+	@objc func onSelectIcon() {
+		let selectIconsVC = SelectIconsViewController()
+		navigationController?.pushViewController(selectIconsVC, animated: true)
 	}
 	
 	func applyConstraints() -> [NSLayoutConstraint] {
@@ -133,16 +140,5 @@ class GameOptionsViewController: UIViewController {
 		return viewConstraints
 	}
 	
-	func applyPortraitConstraints() {
-		
-	}
-	
-	func applyLandscapeConstraints() {
-		
-	}
-	
-	override func viewWillLayoutSubviews() {
-		print("Layout subviews invoked for \(UIDevice.current.orientation)")
-		UIDeviceOrientation.unknown
-	}
+
 }

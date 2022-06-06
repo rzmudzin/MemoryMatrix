@@ -18,6 +18,8 @@
 		13D2CF58284E82160085DDAD /* HighScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF57284E82160085DDAD /* HighScoresViewController.swift */; };
 		13D2CF5A284E83220085DDAD /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF59284E83220085DDAD /* GameBoardViewController.swift */; };
 		13D2CF5C284E83770085DDAD /* GameIcons in Resources */ = {isa = PBXBuildFile; fileRef = 13D2CF5B284E83770085DDAD /* GameIcons */; };
+		13D2CF5E284E8FF80085DDAD /* SelectIconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF5D284E8FF80085DDAD /* SelectIconsViewController.swift */; };
+		13D2CF60284E91710085DDAD /* MemoryMatrixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		13D2CF57284E82160085DDAD /* HighScoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoresViewController.swift; sourceTree = "<group>"; };
 		13D2CF59284E83220085DDAD /* GameBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		13D2CF5B284E83770085DDAD /* GameIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GameIcons; sourceTree = "<group>"; };
+		13D2CF5D284E8FF80085DDAD /* SelectIconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIconsViewController.swift; sourceTree = "<group>"; };
+		13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryMatrixApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,8 @@
 				130554E6284E6ABE009F6381 /* LaunchScreen.storyboard */,
 				130554E9284E6ABE009F6381 /* Info.plist */,
 				13D2CF59284E83220085DDAD /* GameBoardViewController.swift */,
+				13D2CF5D284E8FF80085DDAD /* SelectIconsViewController.swift */,
+				13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */,
 			);
 			path = MemoryMatrix;
 			sourceTree = "<group>";
@@ -160,7 +166,9 @@
 				130554DC284E6ABC009F6381 /* AppDelegate.swift in Sources */,
 				130554DE284E6ABC009F6381 /* SceneDelegate.swift in Sources */,
 				13D2CF56284E81AD0085DDAD /* GameOptionsViewController.swift in Sources */,
+				13D2CF5E284E8FF80085DDAD /* SelectIconsViewController.swift in Sources */,
 				13D2CF5A284E83220085DDAD /* GameBoardViewController.swift in Sources */,
+				13D2CF60284E91710085DDAD /* MemoryMatrixApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
