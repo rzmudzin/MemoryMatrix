@@ -18,6 +18,8 @@ class SelectIconsTableCell: UITableViewCell {
 		iconImage.sizeToFit()
 		iconImage.layer.borderWidth = 1
 		iconImage.layer.borderColor = UIColor.lightGray.cgColor
+		iconName.font = iconName.font.withSize(25)
+		
 		iconName.translatesAutoresizingMaskIntoConstraints = false
 		iconImage.translatesAutoresizingMaskIntoConstraints = false
 		
@@ -26,13 +28,12 @@ class SelectIconsTableCell: UITableViewCell {
 		
 		iconImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
 		iconImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-		iconImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.2).isActive = true
-		iconImage.heightAnchor.constraint(equalTo: iconImage.widthAnchor, multiplier: 1.0/1.0).isActive = true
+		iconImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
+		iconImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
+		iconImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
 		
-		iconName.topAnchor.constraint(equalTo: iconImage.bottomAnchor, constant: 10).isActive = true
-		iconName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-		iconName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
-		iconName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+		iconName.centerYAnchor.constraint(equalTo: iconImage.centerYAnchor).isActive = true
+		iconName.leadingAnchor.constraint(equalTo: iconImage.trailingAnchor, constant: 50).isActive = true
 		
 	}
 	
@@ -42,43 +43,12 @@ class SelectIconsTableCell: UITableViewCell {
 	
 	func setIconInfo(iconInfo: IconsSet) {
 		self.iconInfo = iconInfo
-		let iconPath = "\(iconInfo.path)/\(iconInfo.icons[0])"
+		let iconPath = "\(iconInfo.path)/\(iconInfo.icons[1])"
 		print(iconPath)
 		if let image = UIImage(contentsOfFile: iconPath) {
 			iconImage.image = image
 		}
 		iconName.text = iconInfo.name
-	}
-}
-
-struct FolderInfo {
-	var rootPath: String
-	var name: String
-	var icons: [String]
-}
-class IconsFolderTableCell: UITableViewCell {
-	private var folderInfo: FolderInfo?
-	private var folderName = UILabel()
-	
-	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		
-		contentView.addSubview(folderName)
-
-		folderName.translatesAutoresizingMaskIntoConstraints = false
-		folderName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-		folderName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-		
-		folderName.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
-	}
-	
-	func setFolderInfo(folderInfo: FolderInfo) {
-		self.folderInfo = folderInfo
-		folderName.text = folderInfo.name.replacingOccurrences(of: "_", with: " ")
-	}
-	
-	required init?(coder: NSCoder) {
-		super.init(coder: coder)
 	}
 }
 
@@ -93,7 +63,6 @@ class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableV
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "icon-cell", for: indexPath) as? SelectIconsTableCell {
-			//cell.textLabel?.text = "\(MemoryMatrixApp.shared.icons[indexPath.row].name)"
 			cell.setIconInfo(iconInfo: MemoryMatrixApp.shared.icons[indexPath.row])
 			return cell
 		}
