@@ -104,13 +104,13 @@ class GameMainViewController: UIViewController {
 	
 	@objc func showHighScores() {
 		print("Show High Scores")
-//		let highScoresVC = HighScoresViewController()
-//		self.navigationController?.pushViewController(highScoresVC, animated: true)
+		let highScoresVC = HighScoresViewController()
+		self.navigationController?.pushViewController(highScoresVC, animated: true)
 	}
 	@objc func showGameOptions() {
 		print("Show Game Options")
-//		let gameOptionsVC = GameOptionsViewController()
-//		self.navigationController?.pushViewController(gameOptionsVC, animated: true)
+		let gameOptionsVC = GameOptionsViewController()
+		self.navigationController?.pushViewController(gameOptionsVC, animated: true)
 	}
 	@objc func onStartGame() {
 		Task {
