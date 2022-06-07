@@ -28,13 +28,17 @@ class HighScoresViewController: UIViewController {
 		topHeaderImage.translatesAutoresizingMaskIntoConstraints = false
 		topHeaderImage.image = UIImage(named: "trophy")
 		
+		let gameHighScores = MemoryMatrixApp.shared.highScores
 		for index in 0..<highScores.count {
 			let label = highScores[index]
 			view.addSubview(label)
 			label.translatesAutoresizingMaskIntoConstraints = false
 			label.textColor = .white
 			label.font = label.font.withSize(20)
-			label.text = "Player \(index)"
+			if gameHighScores.count > index {
+				let gameScore = gameHighScores[index]
+				label.text = "\(gameScore.score)\t\t\(gameScore.name)"
+			}
 		}
 
 		createConstraints()

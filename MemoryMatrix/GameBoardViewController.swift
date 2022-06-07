@@ -61,7 +61,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		let imagesSourcePath = "\(MemoryMatrixApp.shared.imageSourcePath)/\(MemoryMatrixApp.shared.iconSet)"
 		iconsSourcePath = imagesSourcePath	//iconsSource
 		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
-		let requiredIcons = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
+		let requiredIcons = MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)
 		gameBoardItems = Int(sqrt(Double(requiredIcons * 2)))	//MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level) / 2
 		loadImagesCache()
 		if let resourcePath = Bundle.main.resourcePath {
@@ -191,9 +191,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					self.secondSelectedImage = nil
 					matches += 1
 					if scoringEngine.matched == self.gameBoardItems * 2 {
-						let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
-						ac.addAction(UIAlertAction(title: "Ok", style: .default))
-						present(ac, animated: true)
+						onGameOver()
 					}
 				} else {
 					//Not so much
@@ -214,8 +212,23 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		}
 	}
 	
+	func onGameOver() {
+		MemoryMatrixApp.shared.recordScore(score: scoringEngine.score) { recordHighScoreUser in
+			let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
+			ac.addTextField()
+			ac.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
+				recordHighScoreUser("")
+			})
+			present(ac, animated: true)
+		} isNotHighScoreCallback: {
+			let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
+			ac.addAction(UIAlertAction(title: "Ok", style: .default))
+			present(ac, animated: true)
+		}
+	}
+	
 	func updateStatus() {
-		statusLabel.text = "\(scoringEngine.score) (\(scoringEngine.matched) of \(MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)))"
+		statusLabel.text = "\(scoringEngine.score) (\(scoringEngine.matched) of \(MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)))"
 	}
 	
 	func generateBoard(withNumberOfItems items: Int) {

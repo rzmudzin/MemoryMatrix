@@ -11,6 +11,11 @@ enum Level: String {
 	case Easy, Medium, Hard
 }
 
+struct HighScore: Codable {
+	var name = ""
+	var score = 0
+}
+
 class IconsSet {
 	var name = ""
 	var path = ""
@@ -25,11 +30,20 @@ class IconsSet {
 class MemoryMatrixApp {
 	static let shared = MemoryMatrixApp()
 	public private(set) var icons = [IconsSet]()
+	private var gameHighScores = [HighScore]()
 	private var gameIconSet = "Smiley"
 	private var gameLevel = Level.Easy
 	private var gameEnableSound = true
 	private var gameClearMatchedPairs = true
 	
+	
+	var highScores: [HighScore] {
+		get {
+			gameHighScores.sorted { (hs1, hs2) in
+				hs2.score < hs1.score
+			}
+		}
+	}
 	var imageSourcePath: String {
 		get {
 			if let resourcePath = Bundle.main.resourcePath {
@@ -79,8 +93,18 @@ class MemoryMatrixApp {
 		}
 	}
 	
-	static func itemsFor(gameLevel: Level) -> Int {
-		let len = gameLevel == .Easy ? 4 : gameLevel == .Medium ? 6 : 8
+	func recordScore(score: Int, isHighScoreCallback: (@escaping (String) -> Void) -> Void, isNotHighScoreCallback: () -> Void) {
+		gameHighScores.first { highScore in
+			true
+		}
+//		let encoder = JSONEncoder()
+//		if let data = try? encoder.encode(items) {
+//			UserDefaults.standard.set(data, forKey: "Items")
+//		}
+	}
+	
+	static func iconsRequiredFor(gameLevel level: Level) -> Int {
+		let len = level == .Easy ? 4 : level == .Medium ? 6 : 8
 		return (len * len) / 2
 	}
 	
@@ -109,5 +133,30 @@ class MemoryMatrixApp {
 			clearMatched = gameClearMatchedPairs
 			enableSound = gameClearMatchedPairs
 		}
+		
+//		for score in 0..<5 {
+//			gameHighScores.append(HighScore(name: "Score \(score)", score: Int.random(in: 0...500)))
+//			print("Added score of \(gameHighScores[gameHighScores.count-1])")
+//		}
+//
+//		let encoder = JSONEncoder()
+//		if let data = try? encoder.encode(gameHighScores) {
+//			UserDefaults.standard.set(data, forKey: "HighScores")
+//		}
+		
+		let decoder = JSONDecoder()
+		if let data = UserDefaults.standard.data(forKey: "HighScores") {
+			if let highScores = try? decoder.decode([HighScore].self, from: data) {
+				self.gameHighScores = highScores.sorted { (hs1, hs2) in
+					hs1.score < hs2.score
+				}
+			}
+		}
+		
+		print("High Scores\n============")
+		for score in gameHighScores {
+			print("Score: \(score.score)")
+		}
+		print("==================")
 	}
 }

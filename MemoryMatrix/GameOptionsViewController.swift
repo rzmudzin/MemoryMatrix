@@ -17,9 +17,9 @@ class GameOptionsViewController: UIViewController {
 	var selectIconsLabel = UILabel()
 	var selectGameLevel = UISegmentedControl(items: ["Easy", "Medium", "Hard"])
 	var selectGameLevelLabel = UILabel()
-	let requiredIconsForEasy = MemoryMatrixApp.itemsFor(gameLevel: Level.Easy)
-	let requiredIconsForMedium = MemoryMatrixApp.itemsFor(gameLevel: Level.Medium)
-	let requiredIconsForHard = MemoryMatrixApp.itemsFor(gameLevel: Level.Hard)
+	let requiredIconsForEasy = MemoryMatrixApp.iconsRequiredFor(gameLevel: Level.Easy)
+	let requiredIconsForMedium = MemoryMatrixApp.iconsRequiredFor(gameLevel: Level.Medium)
+	let requiredIconsForHard = MemoryMatrixApp.iconsRequiredFor(gameLevel: Level.Hard)
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -90,7 +90,7 @@ class GameOptionsViewController: UIViewController {
 	}
 	
 	func validate() {
-		let requiredIcons = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
+		let requiredIcons = MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)
 		if let iconSet = MemoryMatrixApp.shared.icons.first(where: { icons in
 			icons.name == MemoryMatrixApp.shared.iconSet
 		}) {
