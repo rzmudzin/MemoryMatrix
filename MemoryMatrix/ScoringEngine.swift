@@ -45,12 +45,12 @@ class ScoringEngine {
 		}
 	}
 	func onMismatch() {
-		matchedEvents += 1
+		mismatchedEvents += 1
 		gameScore += matchPoints
 	}
 	func onMatch() {
 		if gameScore >= mismatchPoints {
-			mismatchedEvents += 1
+			matchedEvents += 1
 			gameScore -= mismatchPoints
 		}
 	}

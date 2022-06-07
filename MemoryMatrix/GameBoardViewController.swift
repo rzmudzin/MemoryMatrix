@@ -14,6 +14,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	var iconImages = [UIImage]()
 	var iconImageFiles = [String]()
 	var gameBoard = UIView()
+	var statusLabel = UILabel()
 	var iconsSourcePath = ""
 	var gameBoardItems = 0
 	var firstSelectedImage: UIImageView? = nil
@@ -83,7 +84,11 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		view.backgroundColor = .black
 		gameBoard.backgroundColor = .black
 		view.addSubview(gameBoard)
+		view.addSubview(statusLabel)
+		statusLabel.textColor = .white
+		statusLabel.text = "\(scoringEngine.matched) of \(gameBoardItems * 2)"
 		gameBoard.translatesAutoresizingMaskIntoConstraints = false
+		statusLabel.translatesAutoresizingMaskIntoConstraints = false
 		
 		gameBoard.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
 		gameBoard.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
@@ -99,6 +104,9 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		let heightConstraint = gameBoard.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor)
 		heightConstraint.priority = UILayoutPriority(750)
 		heightConstraint.isActive = true
+		
+		statusLabel.bottomAnchor.constraint(equalTo: gameBoard.topAnchor, constant: -40).isActive = true
+		statusLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
 		
 		generateBoard(withNumberOfItems: gameBoardItems)
 		assignIcons()
@@ -172,6 +180,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					//Correct!
 					print("Matched!!!")
 					scoringEngine.onMatch()
+					statusLabel.text = "\(scoringEngine.matched) of \(gameBoardItems * 2)"
 					Task {
 						await self.playYahoo()
 					}
@@ -181,7 +190,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					self.secondSelectedImage = nil
 					matches += 1
 					if scoringEngine.matched == self.gameBoardItems * 2 {
-						let ac = UIAlertController(title: "Game Over", message: "Well done bitch!", preferredStyle: .alert)
+						let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
 						ac.addAction(UIAlertAction(title: "Ok", style: .default))
 						present(ac, animated: true)
 					}
