@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum Level: String {
 	case Easy, Medium, Hard
@@ -35,7 +36,7 @@ class MemoryMatrixApp {
 	private var gameLevel = Level.Easy
 	private var gameEnableSound = true
 	private var gameClearMatchedPairs = true
-	
+	private let maxNumberOfHighScore: Int
 	
 	var highScores: [HighScore] {
 		get {
@@ -94,13 +95,31 @@ class MemoryMatrixApp {
 	}
 	
 	func recordScore(score: Int, isHighScoreCallback: (@escaping (String) -> Void) -> Void, isNotHighScoreCallback: () -> Void) {
-		gameHighScores.first { highScore in
-			true
+		
+		let recordHighScoreUser: (String) -> Void = { [weak self] user in
+			if let self = self {
+				if self.maxNumberOfHighScore >= self.gameHighScores.count {
+					//Remove the item at the first index of our high scores (they are maintained in a sorted order
+					self.gameHighScores.remove(at: 0)
+				}
+				//Record the high score, store, and then sort the high scores
+				self.gameHighScores.append(HighScore(name: user, score: score))
+				let encoder = JSONEncoder()
+				if let data = try? encoder.encode(self.gameHighScores) {
+					UserDefaults.standard.set(data, forKey: "HighScores")
+				}
+				self.gameHighScores.sort { (hs1, hs2) in
+					hs1.score < hs2.score
+				}
+			}
 		}
-//		let encoder = JSONEncoder()
-//		if let data = try? encoder.encode(items) {
-//			UserDefaults.standard.set(data, forKey: "Items")
-//		}
+		
+		if maxNumberOfHighScore > gameHighScores.count || gameHighScores.first(where: { highScore in score > highScore.score }) != nil {
+			//It's a new high score
+			isHighScoreCallback(recordHighScoreUser)
+		} else {
+			isNotHighScoreCallback()
+		}
 	}
 	
 	static func iconsRequiredFor(gameLevel level: Level) -> Int {
@@ -109,6 +128,7 @@ class MemoryMatrixApp {
 	}
 	
 	private init() {
+		maxNumberOfHighScore = UIDevice.current.userInterfaceIdiom == .pad ? 5 : 3
 		let iconsPath = imageSourcePath
 		let fileManager = FileManager()
 		if let iconsList = try? fileManager.contentsOfDirectory(atPath: iconsPath) {

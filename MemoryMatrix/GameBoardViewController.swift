@@ -217,7 +217,9 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 			let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
 			ac.addTextField()
 			ac.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
-				recordHighScoreUser("")
+				if let textFields = ac.textFields, let user = textFields[0].text {
+					recordHighScoreUser(user)
+				}
 			})
 			present(ac, animated: true)
 		} isNotHighScoreCallback: {
