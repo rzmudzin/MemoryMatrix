@@ -83,7 +83,7 @@ class HighScoresViewController: UIViewController {
 	}
 	
 	func createConstraints() {
-		let verticalSpacing = CGFloat(50)
+		let verticalSpacing = CGFloat(UIDevice.current.userInterfaceIdiom == .pad ? 50 : 40)
 		
 		viewConstraints.append(NSLayoutConstraint(
 			item: topHeaderImage,
@@ -101,10 +101,12 @@ class HighScoresViewController: UIViewController {
 
 			if let previousScore = previousScore {
 				viewConstraints.append(label.topAnchor.constraint(equalTo: previousScore.bottomAnchor, constant: verticalSpacing))
+				viewConstraints.append(label.leadingAnchor.constraint(equalTo: previousScore.leadingAnchor, constant: 0))
 			} else {
 				viewConstraints.append(label.topAnchor.constraint(equalTo: topHeaderImage.bottomAnchor, constant: 70))
+				viewConstraints.append(label.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0))
 			}
-			viewConstraints.append(label.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0))
+			
 			previousScore = label
 		}
 		
