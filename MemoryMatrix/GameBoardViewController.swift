@@ -25,17 +25,19 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	var yahooSound: AVAudioPlayer? = nil
 	
 	func playSelectSound() async {
-		var selectSound: AVAudioPlayer? = nil
-		if let resourcePath = Bundle.main.resourcePath {
-			let soundSourcePath = "\(resourcePath)/Sounds/success.wav"
-			let url = URL(fileURLWithPath: soundSourcePath)
-			selectSound = try? AVAudioPlayer(contentsOf: url)
-		}
-		if let success = selectSound {
-			sounds.append(success)
-			success.delegate = self
-			success.volume = 0.4
-			success.play()
+		if MemoryMatrixApp.shared.enableSound {
+			var selectSound: AVAudioPlayer? = nil
+			if let resourcePath = Bundle.main.resourcePath {
+				let soundSourcePath = "\(resourcePath)/Sounds/success.wav"
+				let url = URL(fileURLWithPath: soundSourcePath)
+				selectSound = try? AVAudioPlayer(contentsOf: url)
+			}
+			if let success = selectSound {
+				sounds.append(success)
+				success.delegate = self
+				success.volume = 0.4
+				success.play()
+			}
 		}
 	}
 	
@@ -50,9 +52,11 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	}
 	
 	func playYahoo() async {
-		if let yahoo = yahooSound {
-			yahoo.volume = 0.4
-			yahoo.play()
+		if MemoryMatrixApp.shared.enableSound {
+			if let yahoo = yahooSound {
+				yahoo.volume = 0.4
+				yahoo.play()
+			}
 		}
 	}
 	
@@ -155,7 +159,6 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 			print("Image \(index) Tapped!!!")
 			print(iconImageFiles[index])
 			
-			
 			if firstSelectedImage == nil {
 				firstSelectedImage = iconImageView
 				iconImageView.image = iconImages[index]
@@ -185,8 +188,10 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					Task {
 						await self.playYahoo()
 					}
-					iconImageView.image = nil
-					self.firstSelectedImage?.image = nil
+					if MemoryMatrixApp.shared.clearMatched {
+						iconImageView.image = nil
+						self.firstSelectedImage?.image = nil
+					}
 					self.firstSelectedImage = nil
 					self.secondSelectedImage = nil
 					matches += 1

@@ -15,9 +15,11 @@ class GameMainViewController: UIViewController {
 	var yahooSound: AVAudioPlayer? = nil
 	
 	func playYahoo() async {
-		if let yahoo = yahooSound {
-			yahoo.volume = 0.4
-			yahoo.play()
+		if MemoryMatrixApp.shared.enableSound {
+			if let yahoo = yahooSound {
+				yahoo.volume = 0.4
+				yahoo.play()
+			}
 		}
 	}
 	
