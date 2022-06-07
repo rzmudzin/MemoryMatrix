@@ -98,7 +98,7 @@ class MemoryMatrixApp {
 		
 		let recordHighScoreUser: (String) -> Void = { [weak self] user in
 			if let self = self {
-				if self.maxNumberOfHighScore >= self.gameHighScores.count {
+				if self.gameHighScores.count > 0 && self.gameHighScores.count >= self.maxNumberOfHighScore  {
 					//Remove the item at the first index of our high scores (they are maintained in a sorted order
 					self.gameHighScores.remove(at: 0)
 				}

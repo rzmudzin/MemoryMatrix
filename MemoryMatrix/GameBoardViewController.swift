@@ -24,6 +24,12 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	var sounds = [AVAudioPlayer]()
 	var yahooSound: AVAudioPlayer? = nil
 	
+	var isGameOver: Bool {
+		get {
+			scoringEngine.matched == self.gameBoardItems * 2
+		}
+	}
+	
 	func playSelectSound() async {
 		if MemoryMatrixApp.shared.enableSound {
 			var selectSound: AVAudioPlayer? = nil
@@ -64,7 +70,6 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		self.init(nibName: nil, bundle: nil)
 		let imagesSourcePath = "\(MemoryMatrixApp.shared.imageSourcePath)/\(MemoryMatrixApp.shared.iconSet)"
 		iconsSourcePath = imagesSourcePath	//iconsSource
-		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
 		let requiredIcons = MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)
 		gameBoardItems = Int(sqrt(Double(requiredIcons * 2)))	//MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level) / 2
 		loadImagesCache()
@@ -73,6 +78,14 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 			let url = URL(fileURLWithPath: soundSourcePath)
 			yahooSound = try? AVAudioPlayer(contentsOf: url)
 		}
+		generateBoard(withNumberOfItems: gameBoardItems)
+
+		firstSelectedImage = nil
+		secondSelectedImage = nil
+		matches = 0
+		misses = 0
+		assignIcons()
+		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
 	}
 	
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -113,10 +126,11 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		statusLabel.bottomAnchor.constraint(equalTo: gameBoard.topAnchor, constant: -40).isActive = true
 		statusLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
 		
-		generateBoard(withNumberOfItems: gameBoardItems)
-		assignIcons()
+//		generateBoard(withNumberOfItems: gameBoardItems)
+//		assignIcons()
 		
 		navigationItem.rightBarButtonItems = []
+		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(confirmAbandonGame))
 	}
 	
 	func assignIcons() {
@@ -128,11 +142,13 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 			let firstItemIndex = boardItemIndexes[firstIndex]
 			boardItemIndexes.remove(at: firstIndex)
 			iconImageViews[firstItemIndex].tag = index
+			iconImageViews[firstItemIndex].image = UIImage(named: "qm")
 
 			let secondIndex = Int.random(in: 0..<boardItemIndexes.count)
 			let secondItemIndex = boardItemIndexes[secondIndex]
 			boardItemIndexes.remove(at: secondIndex)
 			iconImageViews[secondItemIndex].tag = index
+			iconImageViews[secondItemIndex].image = UIImage(named: "qm")
 		}
 	}
 	
@@ -195,7 +211,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					self.firstSelectedImage = nil
 					self.secondSelectedImage = nil
 					matches += 1
-					if scoringEngine.matched == self.gameBoardItems * 2 {
+					if isGameOver {
 						onGameOver()
 					}
 				} else {
@@ -219,17 +235,51 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	
 	func onGameOver() {
 		MemoryMatrixApp.shared.recordScore(score: scoringEngine.score) { recordHighScoreUser in
-			let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
+			let ac = UIAlertController(title: "High Score!", message: "Well done, enter your name below (8 characters max).", preferredStyle: .alert)
 			ac.addTextField()
-			ac.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
+			ac.addAction(UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
 				if let textFields = ac.textFields, let user = textFields[0].text {
-					recordHighScoreUser(user)
+					recordHighScoreUser(String(user.prefix(8)))
+					self?.promptPlayAgain()
 				}
 			})
 			present(ac, animated: true)
 		} isNotHighScoreCallback: {
-			let ac = UIAlertController(title: "Game Over", message: "Well done!", preferredStyle: .alert)
-			ac.addAction(UIAlertAction(title: "Ok", style: .default))
+			promptPlayAgain()
+		}
+	}
+	
+	func playAgain() {
+		Task {
+			await playYahoo()
+		}
+		firstSelectedImage = nil
+		secondSelectedImage = nil
+		matches = 0
+		misses = 0
+		assignIcons()
+		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
+		updateStatus()
+	}
+	
+	func promptPlayAgain() {
+		let ac = UIAlertController(title: "Game Over", message: "Nicely done!\nWould you like to play again?", preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+			self?.playAgain()
+		})
+		ac.addAction(UIAlertAction(title: "No", style: .cancel) { [weak self] _ in
+			self?.navigationController?.popToRootViewController(animated: true)
+		})
+		present(ac, animated: true)
+	}
+	
+	@objc func confirmAbandonGame() {
+		if isGameOver == false {
+			let ac = UIAlertController(title: "Confirm", message: "The game is still in play. Are you sure you want to exit?", preferredStyle: .alert)
+			ac.addAction(UIAlertAction(title: "Yes", style: .default) { [weak self] _ in
+				self?.navigationController?.popToRootViewController(animated: true)
+			})
+			ac.addAction(UIAlertAction(title: "No", style: .cancel))
 			present(ac, animated: true)
 		}
 	}

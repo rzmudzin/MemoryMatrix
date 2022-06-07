@@ -322,6 +322,7 @@
 				DEVELOPMENT_TEAM = LK58XLFP48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -350,6 +351,7 @@
 				DEVELOPMENT_TEAM = LK58XLFP48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
