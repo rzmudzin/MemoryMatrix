@@ -24,7 +24,7 @@ import Foundation
 
 class ScoringEngine {
 	private var gameScore = 0
-	private let mismatchPoints = -2
+	private let mismatchPoints = 2
 	private let matchPoints = 20
 	private let level: Level
 	private var mismatchedEvents = 0
@@ -46,12 +46,12 @@ class ScoringEngine {
 	}
 	func onMismatch() {
 		mismatchedEvents += 1
-		gameScore += matchPoints
+		gameScore -= mismatchPoints
 	}
 	func onMatch() {
 		if gameScore >= mismatchPoints {
 			matchedEvents += 1
-			gameScore -= mismatchPoints
+			gameScore += matchPoints
 		}
 	}
 	var score: Int {

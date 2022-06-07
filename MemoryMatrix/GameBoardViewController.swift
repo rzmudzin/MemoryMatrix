@@ -61,7 +61,8 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		let imagesSourcePath = "\(MemoryMatrixApp.shared.imageSourcePath)/\(MemoryMatrixApp.shared.iconSet)"
 		iconsSourcePath = imagesSourcePath	//iconsSource
 		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
-		gameBoardItems = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
+		let requiredIcons = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
+		gameBoardItems = Int(sqrt(Double(requiredIcons * 2)))	//MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level) / 2
 		loadImagesCache()
 		if let resourcePath = Bundle.main.resourcePath {
 			let soundSourcePath = "\(resourcePath)/Sounds/yahoo.wav"
@@ -86,7 +87,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		view.addSubview(gameBoard)
 		view.addSubview(statusLabel)
 		statusLabel.textColor = .white
-		statusLabel.text = "\(scoringEngine.matched) of \(gameBoardItems * 2)"
+		updateStatus()
 		gameBoard.translatesAutoresizingMaskIntoConstraints = false
 		statusLabel.translatesAutoresizingMaskIntoConstraints = false
 		
@@ -180,7 +181,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					//Correct!
 					print("Matched!!!")
 					scoringEngine.onMatch()
-					statusLabel.text = "\(scoringEngine.matched) of \(gameBoardItems * 2)"
+					updateStatus()
 					Task {
 						await self.playYahoo()
 					}
@@ -200,6 +201,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
 						if let self = self {
 							self.misses += 1
+							self.updateStatus()
 							self.firstSelectedImage?.image = UIImage(named: "qm")
 							iconImageView.image = UIImage(named: "qm")
 							self.firstSelectedImage = nil
@@ -210,6 +212,10 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 				}
 			}
 		}
+	}
+	
+	func updateStatus() {
+		statusLabel.text = "\(scoringEngine.score) (\(scoringEngine.matched) of \(MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)))"
 	}
 	
 	func generateBoard(withNumberOfItems items: Int) {

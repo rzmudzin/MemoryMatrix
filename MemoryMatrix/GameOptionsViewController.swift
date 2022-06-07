@@ -17,6 +17,9 @@ class GameOptionsViewController: UIViewController {
 	var selectIconsLabel = UILabel()
 	var selectGameLevel = UISegmentedControl(items: ["Easy", "Medium", "Hard"])
 	var selectGameLevelLabel = UILabel()
+	let requiredIconsForEasy = MemoryMatrixApp.itemsFor(gameLevel: Level.Easy)
+	let requiredIconsForMedium = MemoryMatrixApp.itemsFor(gameLevel: Level.Medium)
+	let requiredIconsForHard = MemoryMatrixApp.itemsFor(gameLevel: Level.Hard)
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -44,7 +47,7 @@ class GameOptionsViewController: UIViewController {
 		
 		selectGameLevelLabel.textColor = .white
 		selectGameLevelLabel.text = "Difficulty Level"
-		selectGameLevel.backgroundColor = .lightGray
+		selectGameLevel.backgroundColor = .white
 		selectIconsLabel.textColor = .white
 		selectIconsLabel.text = "Select Icons"
 		selectIconsButton.setTitleColor(.white, for: .normal)
@@ -75,6 +78,7 @@ class GameOptionsViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		selectIconsButton.setTitle(MemoryMatrixApp.shared.iconSet, for: .normal)
+		validate()
 	}
 	
 	@objc func onClearMatchedChanged() {
@@ -83,6 +87,27 @@ class GameOptionsViewController: UIViewController {
 	
 	@objc func onSoundEnabledChanged() {
 		MemoryMatrixApp.shared.enableSound = soundEnabledSwitch.isOn
+	}
+	
+	func validate() {
+		let requiredIcons = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
+		if let iconSet = MemoryMatrixApp.shared.icons.first(where: { icons in
+			icons.name == MemoryMatrixApp.shared.iconSet
+		}) {
+			if iconSet.icons.count <  requiredIcons {
+				selectGameLevel.selectedSegmentIndex = 0
+			}
+			if iconSet.icons.count <  requiredIconsForHard {
+				selectGameLevel.setEnabled(false, forSegmentAt: 2)
+			} else {
+				selectGameLevel.setEnabled(true, forSegmentAt: 2)
+			}
+			if iconSet.icons.count <  requiredIconsForMedium {
+				selectGameLevel.setEnabled(false, forSegmentAt: 1)
+			} else {
+				selectGameLevel.setEnabled(true, forSegmentAt: 1)
+			}
+		}
 	}
 	
 	@objc func onLevelChanged() {

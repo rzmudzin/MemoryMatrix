@@ -65,6 +65,8 @@ class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableV
 			cell.setIconInfo(iconInfo: selectedIconSet)
 			if selectedIconSet.name == MemoryMatrixApp.shared.iconSet {
 				cell.accessoryType = .checkmark
+			} else {
+				cell.accessoryType = .none
 			}
 			return cell
 		}
@@ -76,6 +78,7 @@ class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableV
 		if let cell = tableView.cellForRow(at: indexPath) {
 			cell.accessoryType = .checkmark
 		}
+		tableView.reloadData()
 	}
 	
 	func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

@@ -80,7 +80,8 @@ class MemoryMatrixApp {
 	}
 	
 	static func itemsFor(gameLevel: Level) -> Int {
-		gameLevel == .Easy ? 4 : gameLevel == .Medium ? 6 : 8
+		let len = gameLevel == .Easy ? 4 : gameLevel == .Medium ? 6 : 8
+		return (len * len) / 2
 	}
 	
 	private init() {
