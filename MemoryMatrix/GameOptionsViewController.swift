@@ -48,17 +48,47 @@ class GameOptionsViewController: UIViewController {
 		selectIconsLabel.textColor = .white
 		selectIconsLabel.text = "Select Icons"
 		selectIconsButton.setTitleColor(.white, for: .normal)
-		selectIconsButton.setTitle("Flowers", for: .normal)
+		selectIconsButton.setTitle(MemoryMatrixApp.shared.iconSet, for: .normal)
 		clearMatchedLabel.textColor = .white
 		clearMatchedLabel.text = "Clear Matched"
 		soundEnabledLabel.textColor = .white
 		soundEnabledLabel.text = "Sound Enabled"
 		topHeaderImage.image = UIImage(named: "options")
 		
+		clearMatchedEnabledSwitch.isOn = MemoryMatrixApp.shared.clearMatched
+		clearMatchedEnabledSwitch.addTarget(self, action: #selector(onClearMatchedChanged), for: .valueChanged)
+		soundEnabledSwitch.isOn = MemoryMatrixApp.shared.enableSound
+		soundEnabledSwitch.addTarget(self, action: #selector(onSoundEnabledChanged), for: .valueChanged)
 		selectIconsButton.addTarget(self, action: #selector(onSelectIcon), for: .touchUpInside)
+		for index in 00..<selectGameLevel.numberOfSegments {
+			let segmentTitle = selectGameLevel.titleForSegment(at: index)
+			if segmentTitle == MemoryMatrixApp.shared.level.rawValue {
+				selectGameLevel.selectedSegmentIndex = index
+				break;
+			}
+		}
+		selectGameLevel.addTarget(self, action: #selector(onLevelChanged), for: .valueChanged)
 		
 		_ = applyConstraints()
 		print("View Did Load Complete")
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		selectIconsButton.setTitle(MemoryMatrixApp.shared.iconSet, for: .normal)
+	}
+	
+	@objc func onClearMatchedChanged() {
+		MemoryMatrixApp.shared.clearMatched = clearMatchedEnabledSwitch.isOn
+	}
+	
+	@objc func onSoundEnabledChanged() {
+		MemoryMatrixApp.shared.enableSound = soundEnabledSwitch.isOn
+	}
+	
+	@objc func onLevelChanged() {
+		if let level = Level(rawValue: selectGameLevel.titleForSegment(at: selectGameLevel.selectedSegmentIndex) ?? "") {
+			MemoryMatrixApp.shared.level = level
+		}
 	}
 	
 	@objc func onSelectIcon() {

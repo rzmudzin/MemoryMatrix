@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum Level: String {
+	case Easy, Medium, Hard
+}
+
 class IconsSet {
 	var name = ""
 	var path = ""
@@ -21,6 +25,50 @@ class IconsSet {
 class MemoryMatrixApp {
 	static let shared = MemoryMatrixApp()
 	public private(set) var icons = [IconsSet]()
+	private var gameIconSet = "Smiley"
+	private var gameLevel = Level.Easy
+	private var gameEnableSound = true
+	private var gameClearMatchedPairs = true
+	
+	var iconSet: String {
+		get {
+			gameIconSet
+		}
+		set {
+			gameIconSet = newValue
+			UserDefaults.standard.set(gameIconSet, forKey: "icons")
+		}
+	}
+	
+	var enableSound: Bool {
+		get {
+			return gameEnableSound
+		}
+		set {
+			gameEnableSound = newValue
+			UserDefaults.standard.set(gameEnableSound, forKey: "enableSound")
+		}
+	}
+	
+	var clearMatched: Bool {
+		get {
+			return gameClearMatchedPairs
+		}
+		set {
+			gameClearMatchedPairs = newValue
+			UserDefaults.standard.set(gameClearMatchedPairs, forKey: "clearMatched")
+		}
+	}
+	
+	var level: Level {
+		get {
+			gameLevel
+		}
+		set {
+			gameLevel = newValue
+			UserDefaults.standard.set(gameLevel.rawValue, forKey: "level")
+		}
+	}
 	
 	private init() {
 		if let resourcePath = Bundle.main.resourcePath {
@@ -35,6 +83,19 @@ class MemoryMatrixApp {
 					}
 				}
 			}
+		}
+		gameIconSet = UserDefaults.standard.string(forKey: "icons") ?? gameIconSet
+		if let savedLevel = Level(rawValue: UserDefaults.standard.string(forKey: "level") ?? "") {
+			gameLevel = savedLevel
+			gameClearMatchedPairs = UserDefaults.standard.bool(forKey: "clearMatched")
+			enableSound = UserDefaults.standard.bool(forKey: "enableSound")
+			
+		} else {
+			//Nothing has been saved yet... force a save of the defaults
+			iconSet = gameIconSet
+			level = gameLevel
+			clearMatched = gameClearMatchedPairs
+			enableSound = gameClearMatchedPairs
 		}
 	}
 }

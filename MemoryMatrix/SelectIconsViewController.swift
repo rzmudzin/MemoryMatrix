@@ -54,8 +54,6 @@ class SelectIconsTableCell: UITableViewCell {
 
 class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	var tableView = UITableView()
-	var selected = ""
-	
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		MemoryMatrixApp.shared.icons.count
@@ -63,14 +61,18 @@ class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableV
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		if let cell = tableView.dequeueReusableCell(withIdentifier: "icon-cell", for: indexPath) as? SelectIconsTableCell {
-			cell.setIconInfo(iconInfo: MemoryMatrixApp.shared.icons[indexPath.row])
+			let selectedIconSet = MemoryMatrixApp.shared.icons[indexPath.row]
+			cell.setIconInfo(iconInfo: selectedIconSet)
+			if selectedIconSet.name == MemoryMatrixApp.shared.iconSet {
+				cell.accessoryType = .checkmark
+			}
 			return cell
 		}
 		return UITableViewCell()
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		selected = MemoryMatrixApp.shared.icons[indexPath.row].name
+		MemoryMatrixApp.shared.iconSet = MemoryMatrixApp.shared.icons[indexPath.row].name
 		if let cell = tableView.cellForRow(at: indexPath) {
 			cell.accessoryType = .checkmark
 		}
@@ -85,6 +87,7 @@ class SelectIconsViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		view.backgroundColor = .black
 		view.addSubview(tableView)
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
