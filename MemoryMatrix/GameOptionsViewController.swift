@@ -48,6 +48,12 @@ class GameOptionsViewController: UIViewController {
 		selectGameLevelLabel.textColor = .white
 		selectGameLevelLabel.text = "Difficulty Level"
 		selectGameLevel.backgroundColor = .white
+		
+		let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+		let disabledTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.gray]
+		selectGameLevel.setTitleTextAttributes(textAttributes, for: .normal)
+		selectGameLevel.setTitleTextAttributes(disabledTextAttributes, for: .disabled)
+		
 		selectIconsLabel.textColor = .white
 		selectIconsLabel.text = "Select Icons"
 		selectIconsButton.setTitleColor(.white, for: .normal)
