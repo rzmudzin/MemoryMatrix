@@ -118,7 +118,7 @@ class GameMainViewController: UIViewController {
 		}
 		if let resourcePath = Bundle.main.resourcePath {
 			let iconsPath = "\(resourcePath)/GameIcons/Icons/Smiley"
-			let gameBoardViewController = GameBoardViewController(iconsSource: iconsPath, boardItems: 4)
+			let gameBoardViewController = GameBoardViewController(iconsSource: iconsPath)
 			navigationController?.pushViewController(gameBoardViewController, animated: true)
 		}
 	}

@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 
 class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
+	var scoringEngine = ScoringEngine(gameLevel: .Easy)
 	var iconImageViews = [UIImageView]()
 	var iconImages = [UIImage]()
 	var iconImageFiles = [String]()
@@ -54,10 +55,12 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		}
 	}
 	
-	convenience init(iconsSource: String, boardItems: Int) {
+	convenience init(iconsSource: String) {
 		self.init(nibName: nil, bundle: nil)
-		iconsSourcePath = iconsSource
-		gameBoardItems = boardItems
+		let imagesSourcePath = "\(MemoryMatrixApp.shared.imageSourcePath)/\(MemoryMatrixApp.shared.iconSet)"
+		iconsSourcePath = imagesSourcePath	//iconsSource
+		scoringEngine = ScoringEngine(gameLevel: MemoryMatrixApp.shared.level)
+		gameBoardItems = MemoryMatrixApp.itemsFor(gameLevel: MemoryMatrixApp.shared.level)
 		loadImagesCache()
 		if let resourcePath = Bundle.main.resourcePath {
 			let soundSourcePath = "\(resourcePath)/Sounds/yahoo.wav"
@@ -100,10 +103,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		generateBoard(withNumberOfItems: gameBoardItems)
 		assignIcons()
 		
-		navigationItem.rightBarButtonItems = [
-			UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(boardInfo)),
-			UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(showIcons))
-		]
+		navigationItem.rightBarButtonItems = []
 	}
 	
 	func assignIcons() {
@@ -139,13 +139,6 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		}
 	}
 	
-	@objc func showIcons() {
-		for iconImageView in iconImageViews {
-			let index = iconImageView.tag
-			iconImageView.image = iconImages[index]
-		}
-	}
-	
 	@objc func onIconTapped(sender: UITapGestureRecognizer) {
 
 		if let iconImageView = sender.view as? UIImageView {
@@ -178,6 +171,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 				if selectedImage.tag == iconImageView.tag {
 					//Correct!
 					print("Matched!!!")
+					scoringEngine.onMatch()
 					Task {
 						await self.playYahoo()
 					}
@@ -186,8 +180,14 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 					self.firstSelectedImage = nil
 					self.secondSelectedImage = nil
 					matches += 1
+					if scoringEngine.matched == self.gameBoardItems * 2 {
+						let ac = UIAlertController(title: "Game Over", message: "Well done bitch!", preferredStyle: .alert)
+						ac.addAction(UIAlertAction(title: "Ok", style: .default))
+						present(ac, animated: true)
+					}
 				} else {
 					//Not so much
+					scoringEngine.onMismatch()
 					DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
 						if let self = self {
 							self.misses += 1
@@ -201,10 +201,6 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 				}
 			}
 		}
-	}
-	
-	@objc func boardInfo() {
-		print("Width: \(gameBoard.frame.width) \nHeight: \(gameBoard.frame.height)")
 	}
 	
 	func generateBoard(withNumberOfItems items: Int) {
