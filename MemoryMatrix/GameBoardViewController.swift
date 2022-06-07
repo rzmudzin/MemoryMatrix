@@ -15,6 +15,8 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	var iconImageFiles = [String]()
 	var gameBoard = UIView()
 	var statusLabel = UILabel()
+	var statusLabelPortraitConstraints = [NSLayoutConstraint]()
+	var statusLabelLandscapeConstraints = [NSLayoutConstraint]()
 	var iconsSourcePath = ""
 	var gameBoardItems = 0
 	var firstSelectedImage: UIImageView? = nil
@@ -23,6 +25,7 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	var misses = 0
 	var sounds = [AVAudioPlayer]()
 	var yahooSound: AVAudioPlayer? = nil
+	var isSmallScreen = false
 	
 	var isGameOver: Bool {
 		get {
@@ -68,6 +71,9 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	
 	convenience init(iconsSource: String) {
 		self.init(nibName: nil, bundle: nil)
+		if UIScreen.main.bounds.size.height < 350 || UIScreen.main.bounds.size.width < 350 {
+			isSmallScreen = true
+		}
 		let imagesSourcePath = "\(MemoryMatrixApp.shared.imageSourcePath)/\(MemoryMatrixApp.shared.iconSet)"
 		iconsSourcePath = imagesSourcePath	//iconsSource
 		let requiredIcons = MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)
@@ -104,6 +110,8 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		view.addSubview(gameBoard)
 		view.addSubview(statusLabel)
 		statusLabel.textColor = .white
+		statusLabel.lineBreakMode = .byWordWrapping
+		statusLabel.numberOfLines = 0
 		updateStatus()
 		gameBoard.translatesAutoresizingMaskIntoConstraints = false
 		statusLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -123,14 +131,38 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		heightConstraint.priority = UILayoutPriority(750)
 		heightConstraint.isActive = true
 		
-		statusLabel.bottomAnchor.constraint(equalTo: gameBoard.topAnchor, constant: -40).isActive = true
-		statusLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-		
-//		generateBoard(withNumberOfItems: gameBoardItems)
-//		assignIcons()
+		statusLabelPortraitConstraints = [
+			statusLabel.bottomAnchor.constraint(equalTo: gameBoard.topAnchor, constant: -40),
+			statusLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+		]
+		statusLabelLandscapeConstraints = [
+			statusLabel.topAnchor.constraint(equalTo: gameBoard.topAnchor, constant: 20),
+			//statusLabel.trailingAnchor.constraint(equalTo: gameBoard.leadingAnchor, constant: -40)
+			statusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10)
+		]
 		
 		navigationItem.rightBarButtonItems = []
 		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(confirmAbandonGame))
+	}
+	
+	override func viewWillLayoutSubviews() {
+		if let orientation = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.interfaceOrientation {
+			if orientation == UIInterfaceOrientation.landscapeLeft || orientation == UIInterfaceOrientation.landscapeRight {
+				for constraint in statusLabelPortraitConstraints {
+					constraint.isActive = false
+				}
+				for constraint in statusLabelLandscapeConstraints {
+					constraint.isActive = true
+				}
+			} else if orientation == UIInterfaceOrientation.portrait || orientation == UIInterfaceOrientation.portraitUpsideDown {
+				for constraint in statusLabelPortraitConstraints {
+					constraint.isActive = true
+				}
+				for constraint in statusLabelLandscapeConstraints {
+					constraint.isActive = false
+				}
+			}
+		}
 	}
 	
 	func assignIcons() {
@@ -285,7 +317,12 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	}
 	
 	func updateStatus() {
-		statusLabel.text = "\(scoringEngine.score) (\(scoringEngine.matched) of \(MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level)))"
+		if isSmallScreen {
+
+			statusLabel.text = "Score: \(scoringEngine.score)\nMatched: \(scoringEngine.matched)\nMissed: \(scoringEngine.mismatched)"
+		} else {
+			statusLabel.text = "Score: \(scoringEngine.score)\nMatched: \(scoringEngine.matched) of \(MemoryMatrixApp.iconsRequiredFor(gameLevel: MemoryMatrixApp.shared.level))\nMissed: \(scoringEngine.mismatched)"
+		}
 	}
 	
 	func generateBoard(withNumberOfItems items: Int) {
