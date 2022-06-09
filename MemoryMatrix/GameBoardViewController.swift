@@ -143,6 +143,22 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 		
 		navigationItem.rightBarButtonItems = []
 		navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(confirmAbandonGame))
+		
+		statusLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onStatusLabelTapped)))
+		statusLabel.isUserInteractionEnabled = true
+	}
+	
+	var iconsRevealed = false
+	@objc func onStatusLabelTapped() {
+		for iconImageView in iconImageViews {
+			if iconsRevealed {
+				iconImageView.image = UIImage(named: "qm")
+			} else {
+				let index = iconImageView.tag
+				iconImageView.image = iconImages[index]
+			}
+		}
+		iconsRevealed = !iconsRevealed
 	}
 	
 	override func viewWillLayoutSubviews() {
