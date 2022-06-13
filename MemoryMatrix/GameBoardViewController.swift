@@ -232,6 +232,11 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 				return
 			} else {
 				if secondSelectedImage == nil {
+					if let selectedImage = firstSelectedImage {
+						if selectedImage == iconImageView {
+							return
+						}
+					}
 					secondSelectedImage = iconImageView
 					iconImageView.image = iconImages[index]
 					Task {
@@ -284,13 +289,28 @@ class GameBoardViewController: UIViewController, AVAudioPlayerDelegate {
 	func onGameOver() {
 		MemoryMatrixApp.shared.recordScore(score: scoringEngine.score) { recordHighScoreUser in
 			let ac = UIAlertController(title: "High Score!", message: "Well done, enter your name below (8 characters max).", preferredStyle: .alert)
-			ac.addTextField()
-			ac.addAction(UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
-				if let textFields = ac.textFields, let user = textFields[0].text {
+			let okAction = UIAlertAction(title: "Ok", style: .default) { [weak self, weak ac] _ in
+				if let ac = ac, let textFields = ac.textFields, let user = textFields[0].text {
 					recordHighScoreUser(String(user.prefix(8)))
 					self?.promptPlayAgain()
 				}
+			}
+			ac.addTextField(configurationHandler: { [weak okAction] textField in
+				if let okAction = okAction {
+					textField.text = ""
+					okAction.isEnabled = false
+					NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: textField, queue: OperationQueue.main) { [weak okAction, weak textField] notification in
+						if let okAction = okAction, let textField = textField {
+							okAction.isEnabled = textField.text!.count >= 2
+						}
+					}
+				}
+//				NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange, object: textField, queue: OperationQueue.main) { (notification) in
+//					saveAction.isEnabled = textField.text!.length > 0
+//				}
 			})
+//			ac.addTextField()
+			ac.addAction(okAction)
 			present(ac, animated: true)
 		} isNotHighScoreCallback: {
 			promptPlayAgain()
