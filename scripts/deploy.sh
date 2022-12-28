@@ -3,3 +3,4 @@ echo "Archive, package, and upload..."
 ./scripts/package.sh
 find ~/bld -name "*" > results.txt
 find ~/ipa -name "*" >> results.txt
+date > timestamp.txt
