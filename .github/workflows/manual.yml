@@ -32,6 +32,8 @@ jobs:
       - name: Build
         run: |          
           echo "Building..."
+          pwd
+          ls -lah
       - name: Sign
         run: |          
           echo "Signing..."
