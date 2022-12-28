@@ -10,21 +10,63 @@ on:
     inputs:
       name:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
+        description: 'Build Type'
         # Default value if no value is explicitly provided
-        default: 'World'
+        default: 'Deployment'
         # Input has to be provided for the workflow to run
-        required: true
+#         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  greet:
+  build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+#       - uses: actions/checkout@v2
+#       - name: Download Last Time Stamp
+#         continue-on-error: true
+#         uses: actions/download-artifact@v3
+#         with:
+#          name: timestamp
+#       - name: Display structure of downloaded files
+#         run: ls -R
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build
+        run: |  
+          echo "Building..."
+          pwd
+          ls -lah
+          ./scripts/deploy.sh
+      - name: Sign
+        run: |          
+          echo "Signing..."
+      - name: Upload
+        run: |          
+          echo "Uploading..."  
+      - name: Upload Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results.txt
+      - name: Upload Time Stamp
+        uses: actions/upload-artifact@v2
+        with:
+          name: timestamp
+          path: timestamp.txt   
+  release-project:
+    name: Release Project
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: timestamp
+      - name: Test Download
+        run: ls -R          
