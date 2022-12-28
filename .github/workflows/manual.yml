@@ -34,10 +34,15 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
-          ./scripts/archive.sh
+          ./scripts/deploy.sh
       - name: Sign
         run: |          
           echo "Signing..."
       - name: Upload
         run: |          
-          echo "Uploading..."          
+          echo "Uploading..."  
+      - name: Upload Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results.txt
