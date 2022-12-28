@@ -1,1 +1,1 @@
-xcodebuild -exportArchive -archivePath /Users/rzmudzinski/bld/MemoryMatrixApp.xcarchive -exportPath /Users/rzmudzinski/ipa -exportOptionsPlist /Users/rzmudzinski/export.plist
+xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ~/export.plist
