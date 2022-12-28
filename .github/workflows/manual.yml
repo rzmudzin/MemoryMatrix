@@ -32,6 +32,9 @@ jobs:
       - name: Build
         run: |          
           echo "Building..."
+          pwd
+          ls -lah
+          ./scripts/archive.sh
       - name: Sign
         run: |          
           echo "Signing..."
