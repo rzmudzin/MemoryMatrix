@@ -46,3 +46,8 @@ jobs:
         with:
           name: results
           path: results.txt
+      - name: Upload Time Stamp
+        uses: actions/upload-artifact@v2
+        with:
+          name: timestamp
+          path: timestamp.txt          
