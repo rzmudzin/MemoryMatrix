@@ -37,8 +37,11 @@ jobs:
          # If not specified, will be inferred from run_id (if run_id is specified), or will be the current workflow
          workflow: composite-workflow.yml
          name: timestamp
-      - name: Validate Download
-        run: ls -R          
+      - name: Extract Last Run Time
+        run: |
+          lastRun=$(cat timestamp.txt)
+          echo "Last Run: $lastRun"
+          #ls -R          
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -55,6 +58,8 @@ jobs:
       - name: Upload
         run: |          
           echo "Uploading..."  
+          currentRun=$(cat timestamp.txt)
+          echo "Current Run: $currentRun"
       - name: Upload Results
         uses: actions/upload-artifact@v2
         with:
