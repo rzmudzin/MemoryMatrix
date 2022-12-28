@@ -25,14 +25,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
-      - name: Download Last Time Stamp
-        continue-on-error: true
-        uses: actions/download-artifact@v3
-        with:
-         name: timestamp
-      - name: Display structure of downloaded files
-        run: ls -R
+#       - uses: actions/checkout@v2
+#       - name: Download Last Time Stamp
+#         continue-on-error: true
+#         uses: actions/download-artifact@v3
+#         with:
+#          name: timestamp
+#       - name: Display structure of downloaded files
+#         run: ls -R
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -60,4 +60,15 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: timestamp
-          path: timestamp.txt          
+          path: timestamp.txt   
+  release-project:
+    name: Release Project
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: timestamp
+      - name: Test Download
+        run: ls -R          
