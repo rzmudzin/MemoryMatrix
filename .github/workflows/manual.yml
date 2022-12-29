@@ -68,6 +68,7 @@ jobs:
           echo "Workflow: ${{github.workflow}}"
           echo "appVersion: $appVersion"
           echo "newBuildNumber: ${newBuildNumber}"
+          ./scripts/upload.sh
       - name: Upload
         if: ${{ false }}
         run: |          
