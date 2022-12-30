@@ -31,10 +31,12 @@ done
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
 
-newVersion="2.2.7"
+newVersion=$versionInfo
 newBuildNumber=$buildNumber
 
 infoPlist="~/bld/MemoryMatrixApp.xcarchive/Products/Applications/MemoryMatrix.app/Info.plist"
+echo "CURRENT"
+echo "========================================"
 version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
 buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
 echo "Version: $version"
@@ -45,11 +47,17 @@ echo "Product version is ${productVersion}"
 eval /usr/libexec/PlistBuddy -c "'Set :CFBundleShortVersionString $newVersion'" $infoPlist
 eval /usr/libexec/PlistBuddy -c "'Set :CFBundleVersion $newBuildNumber'" $infoPlist
 
+echo "UPDATED"
+echo "========================================"
 version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
 buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
 echo "Version: $version"
 echo "Build: $buildNumber"
 productVersion="$version-$buildNumber"
 echo "Product version is ${productVersion}"
+
+echo "PACKAGING FOR UPLOAD"
+echo "========================================"
+./scripts/package.sh
 
 echo "Script Completed"
