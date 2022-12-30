@@ -20,7 +20,7 @@ env:
     ipaName: MemoryMatrix.ipa
     appCenterToken: xxxxx2d2090d16faddb2421e47676b2016566225
     appCenterAppID: 'xxxxxxxx-70d1-d4b8-cd92-53e578e87523'
-    appVersion: 2.2.4
+    appVersion: 2.2.5
     ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
