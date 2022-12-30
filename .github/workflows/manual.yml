@@ -61,22 +61,22 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
-          ./scripts/deploy.sh
-      - name: Sign
-        run: |          
-          echo "Signing..."
           echo "Workflow: ${{github.workflow}}"
           echo "appVersion: $appVersion"
           echo "newBuildNumber: ${newBuildNumber}"
-          ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion"
+          ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion"
+      - name: Package
+        run: |          
+          echo "Packaging..."
+          currentRun=$(cat timestamp.txt)
+          echo "Current Run: $currentRun"        
       - name: Upload
-        if: ${{ false }}
+        #if: ${{ false }}
         run: |          
           echo "Uploading..."  
-          currentRun=$(cat timestamp.txt)
-          echo "Current Run: $currentRun"
+          ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion"          
       - name: Upload Results
-        if: ${{ false }}
+        #if: ${{ false }}
         uses: actions/upload-artifact@v2
         with:
           name: results
