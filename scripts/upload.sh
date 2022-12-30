@@ -1,6 +1,6 @@
 echo "Starting Script"
 
-while getopts a:b:s:S:c:i:e:C:n:P:p:m:D:v:y flag
+while getopts a:b:s:S:c:i:e:C:n:P:p:m:D:v:k:y flag
 do
     case "${flag}" in
         a) appCenterAppID=${OPTARG};;
@@ -9,8 +9,9 @@ do
         S) signingIdentity="${OPTARG}";;
         c) config=${OPTARG};;
         C) configPath="${OPTARG}";;
-        i) archivePath="${OPTARG}";;
+        i) apiIssuer="${OPTARG}";;
         e) exportPath="${OPTARG}";;
+        k) apiKey=${OPTARG};;
         n) productName="${OPTARG}";;
         p) path="${OPTARG}";;
         P) profileList+=("${OPTARG}");;
@@ -31,6 +32,8 @@ done
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
 echo "Uploading version $versionInfo build $buildNumber"
+
+xcrun altool --validate-app -f /Users/rzmudzinski/ipa/MemoryMatrix.ipa --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
 
 #newVersion=$versionInfo
 #newBuildNumber=$buildNumber
