@@ -56,7 +56,7 @@ jobs:
         with:
           submodules: recursive
       - name: Build
-        if: ${{ false }}
+        #if: ${{ false }}
         run: |  
           echo "Building..."
           pwd
