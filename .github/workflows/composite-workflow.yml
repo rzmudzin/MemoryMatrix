@@ -42,7 +42,7 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
-          ./scripts/deploy.sh
+          #./scripts/deploy.sh
       - name: Sign
         run: |          
           echo "Signing..."
