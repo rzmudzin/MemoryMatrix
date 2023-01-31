@@ -22,3 +22,8 @@ jobs:
      - name: Extract Metrics
        run: |
         ./scripts/workflow-metrics.sh
+     - name: Upload Metrics CSV
+       uses: actions/upload-artifact@v2
+       with:
+          name: run-times
+          path: run-times.csv
