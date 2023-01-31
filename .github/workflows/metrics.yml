@@ -18,4 +18,5 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Extract Metrics
-      run: echo "Hello From Extract Metrics"
+      run: |
+        ./scripts/workflow-metrics.sh
