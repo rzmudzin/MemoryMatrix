@@ -26,7 +26,7 @@ jobs:
          #workflow: composite-workflow.yml
          workflow: ${{ github.event.workflow_run.workflow_id }}
          #search_artifacts: true
-         if_no_artifact_found: warn
+         #if_no_artifact_found: warn
          name: timestamp    
       - name: Basic Workflow Step
         #if: ${{ false }}
