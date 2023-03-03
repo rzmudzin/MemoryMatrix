@@ -23,3 +23,10 @@ jobs:
         with:
           name: timestamp
           path: timestamp.txt 
+
+      - name: Ext Upload Time Stamp
+        #if: ${{ false }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Time Stamp Ext
+          path: timestamp.txt
