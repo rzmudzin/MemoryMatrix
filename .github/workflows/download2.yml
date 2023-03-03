@@ -24,7 +24,7 @@ jobs:
          # Optional, workflow file name or ID
          # If not specified, will be inferred from run_id (if run_id is specified), or will be the current workflow
          workflow: composite-workflow.yml
-         #name: timestamp    
+         name: timestamp    
       - name: Basic Workflow Step
         #if: ${{ false }}
         run: |
