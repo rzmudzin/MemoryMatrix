@@ -1,0 +1,49 @@
+# This is a basic workflow that is manually triggered
+
+name: Downloading workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+        # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+        # Required, if the artifact is from a different repo
+        # Required, if the repo is private a Personal Access Token with `repo` scope is needed
+         github_token: ${{secrets.GITHUB_TOKEN}}
+         # Optional, workflow file name or ID
+         # If not specified, will be inferred from run_id (if run_id is specified), or will be the current workflow
+         workflow: composite-workflow.yml
+         #name: timestamp    
+      - name: Basic Workflow Step
+        #if: ${{ false }}
+        run: |
+          pwd
+          ls -lah
+      - name: Create Time Stamp
+        if: ${{ false }}
+        run: |
+          echo date > timestamp.txt    
+      - name: Upload Time Stamp
+        if: ${{ false }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: timestamp
+          path: timestamp.txt 
+
+      - name: Ext Upload Time Stamp
+        if: ${{ false }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Time Stamp Ext
+          path: timestamp.txt
