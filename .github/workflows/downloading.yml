@@ -13,19 +13,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Time Stamp
+      - name: Basic Workflow Step
         #if: ${{ false }}
+        run: |
+          pwd
+          ls -lah
+      - name: Create Time Stamp
+        if: ${{ false }}
         run: |
           echo date > timestamp.txt    
       - name: Upload Time Stamp
-        #if: ${{ false }}
+        if: ${{ false }}
         uses: actions/upload-artifact@v2
         with:
           name: timestamp
           path: timestamp.txt 
 
       - name: Ext Upload Time Stamp
-        #if: ${{ false }}
+        if: ${{ false }}
         uses: actions/upload-artifact@v2
         with:
           name: Time Stamp Ext
