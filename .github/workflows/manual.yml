@@ -37,6 +37,7 @@ jobs:
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
       - name: Download artifact
+        if: ${{ false }}
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
@@ -49,6 +50,7 @@ jobs:
          workflow: composite-workflow.yml
          name: timestamp
       - name: Extract Last Run Time
+        if: ${{ false }}
         run: |
           lastRun=$(cat timestamp.txt)
           echo "Last Run: $lastRun"
