@@ -37,9 +37,9 @@ class GameMainViewController: UIViewController {
 		view.addSubview(highScoresButton)
 		view.addSubview(optionsButton)
 		
-		highScoresButton.setImage(UIImage(named: "hscores"), for: .normal)
+		highScoresButton.setImage(UIImage(named: "HScores"), for: .normal)
 		highScoresButton.addTarget(self, action: #selector(showHighScores), for: .touchUpInside)
-		optionsButton.setImage(UIImage(named: "options"), for: .normal)
+		optionsButton.setImage(UIImage(named: "Options"), for: .normal)
 		optionsButton.addTarget(self, action: #selector(showGameOptions), for: .touchUpInside)
 		startGameButton.setImage(UIImage(named: "start"), for: .normal)
 		startGameButton.addTarget(self, action: #selector(onStartGame), for: .touchUpInside)
