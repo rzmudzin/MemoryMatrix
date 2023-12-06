@@ -1,4 +1,5 @@
 echo "Archive, package, and upload..."
+set -e
 while getopts a:b:s:S:c:i:e:C:n:P:p:m:D:v:y flag
 do
     case "${flag}" in
