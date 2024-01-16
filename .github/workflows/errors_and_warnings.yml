@@ -30,5 +30,6 @@ jobs:
     - name: Send greeting
       run: |
         echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
-        ::error file={name},line={line},endLine={endLine},title={title}::{message}
+        # ::error file={name},line={line},endLine={endLine},title={title}::{message}
+        echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon idiot"
         echo "Hello ${{ inputs.name }}"
