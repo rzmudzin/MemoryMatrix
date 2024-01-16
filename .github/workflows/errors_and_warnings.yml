@@ -33,3 +33,4 @@ jobs:
         # ::error file={name},line={line},endLine={endLine},title={title}::{message}
         echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon idiot"
         echo "Hello ${{ inputs.name }}"
+        exit 44
