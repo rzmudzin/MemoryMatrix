@@ -13,15 +13,13 @@ on:
         description: 'Build Type'
         # Default value if no value is explicitly provided
         default: 'Deployment'     
-      file:
+      job-type:
         type: choice
-        description: Strings File
+        description: Job Type
         options:
         - "Deployment"
-        - "Build Only"
-        - "Localizable.stringsdict"
-        - "WatchLocalizable.strings"
-        - "WatchLocalizable.stringsdict"
+        - "Build IPA"
+        - "Build Archive"
 env:
     scheme: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
