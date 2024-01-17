@@ -79,10 +79,10 @@ jobs:
           echo "Packaging..."
           currentRun=$(cat timestamp.txt)
           echo "Current Run: $currentRun"  
-      - name: Size Check
+      - name: Size CheckS
         run: |
           echo "Executing size checks..."
-          find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} --restriction png:50000000:warn --restriction pdf:5000000:error
+          find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} "${{ env.APP_SIZE_RESTRICTIONS }}"
           echo "Size checks completed."
       - name: Upload
         if: inputs.job-type == 'Deployment'
