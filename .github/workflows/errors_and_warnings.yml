@@ -23,9 +23,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
+    - name: Calculate New Build Number
+      run: |
+        if [ ${{inputs.job-type}} = "Deployment" ]; then
+           newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+           echo "New Build Number: $newBuildNumber"
+           echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV   
+        fi
     - name: Send greeting
       run: |
+        echo "Job Type: ${{inputs.job-type}}"
         echo "::warning file=somefile.pdf::File is to large"
         echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
         # ::error file={name},line={line},endLine={endLine},title={title}::{message}
