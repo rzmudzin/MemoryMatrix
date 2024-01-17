@@ -25,7 +25,7 @@ jobs:
     steps:
     - name: Calculate New Build Number
       run: |
-        if [ ${{inputs.job-type}} = "Deployment" ]; then
+        if [ "${{inputs.job-type}}" = "Deployment" ]; then
            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
            echo "New Build Number: $newBuildNumber"
            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV   
