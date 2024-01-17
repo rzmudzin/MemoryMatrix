@@ -29,6 +29,7 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
+        echo "::warning file=somefile.pdf::File is to large"
         echo "::warning file=app.js,line=1,col=5,endColumn=7::Missing semicolon"
         # ::error file={name},line={line},endLine={endLine},title={title}::{message}
         echo "::error file=app.js,line=1,col=5,endColumn=7::Missing semicolon idiot"
