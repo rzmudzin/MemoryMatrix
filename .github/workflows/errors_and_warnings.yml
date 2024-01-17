@@ -24,6 +24,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Calculate New Build Number
+      if: inputs.job-type}} == "Deployment" 
       run: |
         if [ "${{inputs.job-type}}" = "Deployment" ]; then
            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
