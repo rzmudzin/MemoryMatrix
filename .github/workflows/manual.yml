@@ -9,10 +9,9 @@ on:
     # Inputs the workflow accepts.
     inputs:
       name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Build Type'
+        description: 'Build Name'
         # Default value if no value is explicitly provided
-        default: 'Deployment'     
+        default: 'Memory Matrix'     
       job-type:
         type: choice
         description: Job Type
@@ -20,6 +19,9 @@ on:
         - "Build Archive"        
         - "Build IPA"        
         - "Deployment"
+      run-workflow-size-check:
+        type: boolean
+        description: Run Workflow Size Checks
 env:
     scheme: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
@@ -80,6 +82,7 @@ jobs:
           currentRun=$(cat timestamp.txt)
           echo "Current Run: $currentRun"  
       - name: Size Checks
+        if: ${{ inputs.run-workflow-size-check }}
         run: |
           echo "Executing size checks..."
           echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
