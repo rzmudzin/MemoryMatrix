@@ -73,3 +73,6 @@ echo "========================================"
 find ~/bld -name "*" > results.txt
 find ~/ipa -name "*" >> results.txt
 date > timestamp.txt
+
+#archivePath
+find "${archivePath}" -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${APP_SIZE_RESTRICTIONS}
