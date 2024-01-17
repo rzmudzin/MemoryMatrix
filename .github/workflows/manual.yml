@@ -12,9 +12,16 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Build Type'
         # Default value if no value is explicitly provided
-        default: 'Deployment'
-        # Input has to be provided for the workflow to run
-#         required: true
+        default: 'Deployment'     
+      file:
+        type: choice
+        description: Strings File
+        options:
+        - "Deployment"
+        - "Build Only"
+        - "Localizable.stringsdict"
+        - "WatchLocalizable.strings"
+        - "WatchLocalizable.stringsdict"
 env:
     scheme: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
