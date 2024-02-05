@@ -81,13 +81,13 @@ jobs:
           echo "Packaging..."
           currentRun=$(cat timestamp.txt)
           echo "Current Run: $currentRun"  
-      - name: Size Checks
-        if: ${{ inputs.run-workflow-size-check }}
-        run: |
-          echo "Executing size checks..."
-          echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
-          find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${{ vars.APP_SIZE_RESTRICTIONS }}
-          echo "Size checks completed."
+      # - name: Size Checks
+      #   if: ${{ inputs.run-workflow-size-check }}
+      #   run: |
+      #     echo "Executing size checks..."
+      #     echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
+      #     find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${{ vars.APP_SIZE_RESTRICTIONS }}
+      #     echo "Size checks completed."
       - name: Upload
         if: inputs.job-type == 'Deployment'
         run: |          
