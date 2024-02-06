@@ -26,8 +26,8 @@ on:
         type: choice
         description: Job Type
         options:
-        - "self-hosted"        
-        - "meh"           
+        - "14"        
+        - "15"           
 env:
     scheme: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
@@ -40,7 +40,7 @@ env:
 jobs:
   build:
     # The type of runner that the job will run on
-    runs-on: ["${{inputs.runner}}"]
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
