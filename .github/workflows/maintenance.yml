@@ -32,4 +32,5 @@ jobs:
           echo "Executing Request..."
           pwd
           ls -lah
+          echo "Path: $PATH"
           dostuff.sh
