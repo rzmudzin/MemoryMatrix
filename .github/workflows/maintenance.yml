@@ -32,3 +32,4 @@ jobs:
           echo "Executing Request..."
           pwd
           ls -lah
+          dostuff.sh
