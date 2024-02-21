@@ -33,8 +33,7 @@ echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
 echo "Uploading version $versionInfo build $buildNumber"
 
-#xcrun altool --validate-app -f /Users/rzmudzinski/ipa/MemoryMatrix.ipa --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
-xcrun altool --upload-app -f /Users/rzmudzinski/ipa/MemoryMatrix.ipa --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
+xcrun altool --upload-app -f "${HOME}/ipa/MemoryMatrix.ipa" --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
 
 #newVersion=$versionInfo
 #newBuildNumber=$buildNumber
