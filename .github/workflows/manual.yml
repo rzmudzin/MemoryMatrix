@@ -19,6 +19,9 @@ on:
         - "Build Archive"        
         - "Build IPA"        
         - "Deployment"
+      deploy-via-azure:
+        type: boolean
+        description: Deploy Via Azure
       run-workflow-size-check:
         type: boolean
         description: Run Workflow Size Checks
