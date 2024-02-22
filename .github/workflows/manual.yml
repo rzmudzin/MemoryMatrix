@@ -58,8 +58,8 @@ jobs:
       - name: Start Azure Runner
         if: inputs.job-type == 'Deployment'
         run: |          
-          echo "Uploading..."  
-          ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+          echo "Running..."  
+          # ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
       - name: Download artifact
         if: ${{ false }}
         id: download-artifact
