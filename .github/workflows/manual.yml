@@ -44,6 +44,19 @@ env:
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
 jobs:
+  start-runner:
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Start Azure Runner
+        if: ${{ inputs.deploy-via-azure }}
+        run: |          
+          echo "Starting Runner..."  
+          ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+     
   build:
     # The type of runner that the job will run on
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
@@ -55,10 +68,10 @@ jobs:
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
-      - name: Start Azure Runner
-        if: inputs.job-type == 'Deployment'
-        run: |          
-          echo "Running..."  
+      # - name: Start Azure Runner
+      #   if: ${{ inputs.deploy-via-azure }}
+      #   run: |          
+      #     echo "Running..."  
           # ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
       - name: Download artifact
         if: ${{ false }}
