@@ -22,6 +22,9 @@ on:
       deploy-via-azure:
         type: boolean
         description: Deploy Via Azure
+      attach-ipa:
+        type: boolean
+        description: Attach IPA to Run
       run-workflow-size-check:
         type: boolean
         description: Run Workflow Size Checks
