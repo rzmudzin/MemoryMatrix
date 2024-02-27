@@ -1,6 +1,6 @@
 echo "Archive, package, and upload..."
 set -e
-while getopts a:b:s:S:c:i:e:C:n:P:p:m:D:v:y flag
+while getopts a:b:s:S:c:i:e:C:n:P:p:m:M:D:v:y flag
 do
     case "${flag}" in
         a) appCenterAppID=${OPTARG};;
@@ -15,6 +15,7 @@ do
         p) path="${OPTARG}";;
         P) profileList+=("${OPTARG}");;
         m) method=${OPTARG};;
+        M) mobileProfile=${OPTARG};;
         d) destination=${OPTARG};;
         D) dsapHost=${OPTARG};;
         v) versionInfo=${OPTARG};;
@@ -24,7 +25,7 @@ do
 done
 
 # Apple Distribution: Robert Zmudzinski (LK58XLFP48)
-./scripts/archive.sh "${signingIdentity}"
+./scripts/archive.sh "${signingIdentity}" "${mobileProfile}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
