@@ -23,7 +23,8 @@ do
     esac
 done
 
-./scripts/archive.sh
+# Apple Distribution: Robert Zmudzinski (LK58XLFP48)
+./scripts/archive.sh "${signingIdentity}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
