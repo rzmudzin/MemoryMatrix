@@ -19,13 +19,16 @@ on:
         - "Build Archive"        
         - "Build IPA"        
         - "Deployment"
-        - "Enterprise Deployment"
       deploy-via-azure:
         type: boolean
         description: Deploy Via Azure
+
       attach-ipa:
         type: boolean
-        description: Attach IPA to Run
+        description: Attach IPA to Run        
+      enterprise-app:
+        type: boolean
+        description: Enterprise App
       run-workflow-size-check:
         type: boolean
         description: Run Workflow Size Checks
@@ -121,14 +124,14 @@ jobs:
       #     echo "Size checks completed."
       - name: Upload To Apple App Store
         if: inputs.job-type == 'Deployment'
-        run: |          
-          echo "Uploading To Apple App Store..."  
-          ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"
-
-      - name: Upload To App Center
-        if: inputs.job-type == 'Enterprise Deployment'
-        run: |          
-          echo "Uploading To App Center..."            
+        run: |    
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Uploading To App Center..."  
+          else
+            echo "Uploading To Apple App Store..."  
+            ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"          
+          fi
+          
       - name: Upload Results
         #if: ${{ false }}
         uses: actions/upload-artifact@v2
