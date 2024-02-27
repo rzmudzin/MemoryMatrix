@@ -106,6 +106,12 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
+          echo "Is Enterprise App: ${{ inputs.enterprise-app }}"
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Enterprise App"
+          else
+            echo "App Store App"
+          fi
           echo "Workflow: ${{github.workflow}}"
           echo "appVersion: $appVersion"
           echo "newBuildNumber: ${newBuildNumber}"
