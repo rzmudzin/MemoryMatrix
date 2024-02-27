@@ -317,12 +317,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LK58XLFP48;
+				DEVELOPMENT_TEAM = LK58XLFP48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
@@ -338,8 +335,6 @@
 				MARKETING_VERSION = 2.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.phoenixroberts.memorymatrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MemoryMatrix;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -352,11 +347,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = LK58XLFP48;
+				DEVELOPMENT_TEAM = LK58XLFP48;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
@@ -373,14 +366,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.phoenixroberts.memorymatrix;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MemoryMatrix;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		135D7D382B8D9DED008CEC44 /* Enterprise Debug */ = {
+		135D7D3C2B8E2441008CEC44 /* Enterprise Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -440,16 +432,14 @@
 			};
 			name = "Enterprise Debug";
 		};
-		135D7D392B8D9DED008CEC44 /* Enterprise Debug */ = {
+		135D7D3D2B8E2441008CEC44 /* Enterprise Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = L7ZCC3F5R6;
+				DEVELOPMENT_TEAM = L7ZCC3F5R6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
@@ -465,15 +455,13 @@
 				MARKETING_VERSION = 2.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.phoenixroberts.phxr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Phxr Distribution";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Enterprise Debug";
 		};
-		135D7D3A2B8D9DFD008CEC44 /* Enterprise Release */ = {
+		135D7D3E2B8E2452008CEC44 /* Enterprise Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -527,17 +515,15 @@
 			};
 			name = "Enterprise Release";
 		};
-		135D7D3B2B8D9DFD008CEC44 /* Enterprise Release */ = {
+		135D7D3F2B8E2452008CEC44 /* Enterprise Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = L7ZCC3F5R6;
+				DEVELOPMENT_TEAM = L7ZCC3F5R6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MemoryMatrix/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Match Matrix";
@@ -554,7 +540,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.phoenixroberts.phxr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Phxr Distribution";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -568,9 +553,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				130554EA284E6ABE009F6381 /* Debug */,
-				135D7D382B8D9DED008CEC44 /* Enterprise Debug */,
+				135D7D3C2B8E2441008CEC44 /* Enterprise Debug */,
 				130554EB284E6ABE009F6381 /* Release */,
-				135D7D3A2B8D9DFD008CEC44 /* Enterprise Release */,
+				135D7D3E2B8E2452008CEC44 /* Enterprise Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -579,9 +564,9 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				130554ED284E6ABE009F6381 /* Debug */,
-				135D7D392B8D9DED008CEC44 /* Enterprise Debug */,
+				135D7D3D2B8E2441008CEC44 /* Enterprise Debug */,
 				130554EE284E6ABE009F6381 /* Release */,
-				135D7D3B2B8D9DFD008CEC44 /* Enterprise Release */,
+				135D7D3F2B8E2452008CEC44 /* Enterprise Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
