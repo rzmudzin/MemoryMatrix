@@ -19,6 +19,7 @@ on:
         - "Build Archive"        
         - "Build IPA"        
         - "Deployment"
+        - "Enterprise Deployment"
       deploy-via-azure:
         type: boolean
         description: Deploy Via Azure
@@ -118,11 +119,16 @@ jobs:
       #     echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
       #     find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${{ vars.APP_SIZE_RESTRICTIONS }}
       #     echo "Size checks completed."
-      - name: Upload
+      - name: Upload To Apple App Store
         if: inputs.job-type == 'Deployment'
         run: |          
-          echo "Uploading..."  
+          echo "Uploading To Apple App Store..."  
           ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"
+
+      - name: Upload To App Center
+        if: inputs.job-type == 'Enterprise Deployment'
+        run: |          
+          echo "Uploading To App Center..."            
       - name: Upload Results
         #if: ${{ false }}
         uses: actions/upload-artifact@v2
