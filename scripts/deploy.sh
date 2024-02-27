@@ -25,7 +25,7 @@ do
 done
 
 # Apple Distribution: Robert Zmudzinski (LK58XLFP48)
-./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}"
+./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
