@@ -115,7 +115,7 @@ jobs:
             echo "Enterprise App"
           else
             echo "App Store App"
-            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe
           fi
           
       - name: Package
