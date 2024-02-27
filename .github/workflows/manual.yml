@@ -106,16 +106,18 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
+          
+          echo "Workflow: ${{github.workflow}}"
+          echo "appVersion: $appVersion"
+          echo "newBuildNumber: ${newBuildNumber}"
           echo "Is Enterprise App: ${{ inputs.enterprise-app }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Enterprise App"
           else
             echo "App Store App"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)"
           fi
-          echo "Workflow: ${{github.workflow}}"
-          echo "appVersion: $appVersion"
-          echo "newBuildNumber: ${newBuildNumber}"
-          ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion"
+          
       - name: Package
         run: |          
           echo "Packaging..."
