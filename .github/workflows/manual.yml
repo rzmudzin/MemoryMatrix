@@ -129,10 +129,10 @@ jobs:
             currentRun=$(cat timestamp.txt)
             echo "Current Run: $currentRun"  
             # ./scripts/package.sh
-            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist
-            find ~/bld -name "*" > results.txt
-            find ~/ipa -name "*" >> results.txt          
+            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
           fi
+          find ~/bld -name "*" > results.txt
+          find ~/ipa -name "*" >> results.txt               
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}
       #   run: |
