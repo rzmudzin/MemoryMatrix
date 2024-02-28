@@ -148,7 +148,7 @@ jobs:
         run: |    
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Uploading To App Center..."  
-            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "~/ipa/MemoryMatrix.ipa" --release-notes-file "~/ipa/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
+            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "/Users/rzmudzinski/ipa/MemoryMatrix.ipa" --release-notes-file "/Users/rzmudzinski/ipa/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
           else
             echo "Uploading To Apple App Store..."  
             ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"          
