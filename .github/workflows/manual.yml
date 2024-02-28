@@ -121,9 +121,16 @@ jobs:
           
       - name: Package
         run: |          
-          echo "Packaging..."
-          currentRun=$(cat timestamp.txt)
-          echo "Current Run: $currentRun"  
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Creating Enterprise Package..."
+          else 
+            echo "Creating App Store Package..."
+            currentRun=$(cat timestamp.txt)
+            echo "Current Run: $currentRun"  
+            ./scripts/package.sh
+            find ~/bld -name "*" > results.txt
+            find ~/ipa -name "*" >> results.txt          
+          fi
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}
       #   run: |
