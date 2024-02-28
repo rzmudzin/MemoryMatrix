@@ -6,7 +6,7 @@
 	<string>enterprise</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.phoenixroberts.memorymatrix</key>
+		<key>com.phoenixroberts.phxr</key>
 		<string>dae3007d-dbd8-4f85-bfbd-5cbef813cd3b</string>
 	</dict>
 </dict>
