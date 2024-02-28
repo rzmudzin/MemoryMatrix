@@ -71,8 +71,5 @@ echo "Product version is ${productVersion}"
 echo "PACKAGING FOR UPLOAD"
 echo "========================================"
 
-./scripts/package.sh
-find ~/bld -name "*" > results.txt
-find ~/ipa -name "*" >> results.txt
 date > timestamp.txt
 
