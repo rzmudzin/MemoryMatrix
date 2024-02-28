@@ -138,7 +138,7 @@ jobs:
       #     echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
       #     find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${{ vars.APP_SIZE_RESTRICTIONS }}
       #     echo "Size checks completed."
-      - name: Upload To Apple App Store
+      - name: Upload Package
         if: inputs.job-type == 'Deployment'
         run: |    
           if ${{ inputs.enterprise-app }} == "true"; then
