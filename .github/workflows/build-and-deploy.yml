@@ -9,24 +9,160 @@ on:
     # Inputs the workflow accepts.
     inputs:
       name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
+        description: 'Build Name'
         # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
-        # The data type of the input
-        type: string
+        default: 'Memory Matrix'     
+      job-type:
+        type: choice
+        description: Job Type
+        options:
+        - "Build Archive"        
+        - "Build IPA"        
+        - "Deployment"
+      deploy-via-azure:
+        type: boolean
+        description: Deploy Via Azure
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+      attach-ipa:
+        type: boolean
+        description: Attach IPA to Run        
+      enterprise-app:
+        type: boolean
+        description: Enterprise App
+      run-workflow-size-check:
+        type: boolean
+        description: Run Workflow Size Checks
+      runner:
+        type: choice
+        description: Job Type
+        options:
+        - "14"        
+        - "15"           
+env:
+    scheme: 'MemoryMatrix'
+    ipaName: MemoryMatrix.ipa
+    appCenterToken: xxxxx2d2090d16faddb2421e47676b2016566225
+    appCenterAppID: 'xxxxxxxx-70d1-d4b8-cd92-53e578e87523'
+    appVersion: 2.2.5
+    ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
+    ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
+    APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
+  start-runner:
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Start Azure Runner
+        if: ${{ inputs.deploy-via-azure }}
+        run: |          
+          echo "Starting Runner..."  
+          ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+     
+  build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+      - name: Calculate New Build Number
+        run: |
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
+      # - name: Start Azure Runner
+      #   if: ${{ inputs.deploy-via-azure }}
+      #   run: |          
+      #     echo "Running..."  
+          # ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+      - name: Download artifact
+        if: ${{ false }}
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+        # Optional, GitHub token, a Personal Access Token with `public_repo` scope if needed
+        # Required, if the artifact is from a different repo
+        # Required, if the repo is private a Personal Access Token with `repo` scope is needed
+         github_token: ${{secrets.GITHUB_TOKEN}}
+         # Optional, workflow file name or ID
+         # If not specified, will be inferred from run_id (if run_id is specified), or will be the current workflow
+         workflow: composite-workflow.yml
+         name: timestamp
+      - name: Extract Last Run Time
+        if: ${{ false }}
+        run: |
+          lastRun=$(cat timestamp.txt)
+          echo "Last Run: $lastRun"
+          #ls -R          
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build
+        #if: ${{ false }}
+        run: |  
+          echo "Building..."
+          pwd
+          ls -lah
+          
+          echo "Workflow: ${{github.workflow}}"
+          echo "appVersion: $appVersion"
+          echo "newBuildNumber: ${newBuildNumber}"
+          echo "Is Enterprise App: ${{ inputs.enterprise-app }}"
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Enterprise App"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release"
+          else
+            echo "App Store App"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe -s "MemoryMatrix" -c "Release"
+          fi
+          
+      - name: Package
+        run: |          
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Creating Enterprise Package..."
+            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
+            echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
+            echo "appVersion: $appVersion" >> ~/ipa/changes.txt
+            echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt
+          else 
+            echo "Creating App Store Package..."
+            currentRun=$(cat timestamp.txt)
+            echo "Current Run: $currentRun"  
+            # ./scripts/package.sh
+            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
+          fi
+          find ~/bld -name "*" > results.txt
+          find ~/ipa -name "*" >> results.txt               
+      # - name: Size Checks
+      #   if: ${{ inputs.run-workflow-size-check }}
+      #   run: |
+      #     echo "Executing size checks..."
+      #     echo "${{ vars.APP_SIZE_RESTRICTIONS }}"
+      #     find ~/bld/MemoryMatrixApp.xcarchive -name "*.car" -print0 | xargs -0 -I {} python3 ./scripts/check-asset-size.py --cpath {} ${{ vars.APP_SIZE_RESTRICTIONS }}
+      #     echo "Size checks completed."
+      - name: Upload Package
+        if: inputs.job-type == 'Deployment'
+        run: |    
+          if ${{ inputs.enterprise-app }} == "true"; then
+            echo "Uploading To App Center..."  
+            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "/Users/rzmudzinski/ipa/MemoryMatrix.ipa" --release-notes-file "/Users/rzmudzinski/ipa/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
+          else
+            echo "Uploading To Apple App Store..."  
+            ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"          
+          fi
+          
+      - name: Upload Results
+        #if: ${{ false }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results.txt
+      - name: Upload Time Stamp
+        if: ${{ false }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: timestamp
+          path: timestamp.txt          
