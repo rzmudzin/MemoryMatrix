@@ -52,6 +52,7 @@ env:
     
 jobs:
   start-runner:
+   if: ${{ inputs.deploy-via-azure }}
    runs-on: ubuntu-latest
    steps:
       - name: Checkout
