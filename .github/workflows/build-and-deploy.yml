@@ -40,6 +40,7 @@ on:
         - "15"           
 env:
     scheme: 'MemoryMatrix'
+    appName: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
     appCenterToken: xxxxx2d2090d16faddb2421e47676b2016566225
     appCenterAppID: 'xxxxxxxx-70d1-d4b8-cd92-53e578e87523'
@@ -155,15 +156,14 @@ jobs:
             ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId" -p "${IPA_PATH}/MemoryMatrix.ipa"
           fi
           
-      - name: Upload Results
-        if: inputs.attach-ipa == true && (inputs.job-type == 'Build IPA'|| inputs.job-type == 'Deployment')
+      - name: Attach Results
         uses: actions/upload-artifact@v2
         with:
           name: results
           path: results.txt
-      - name: Upload Time Stamp
-        if: ${{ false }}
+      - name: Attach IPA
+        if: inputs.attach-ipa == true && (inputs.job-type == 'Build IPA'|| inputs.job-type == 'Deployment')
         uses: actions/upload-artifact@v2
         with:
-          name: timestamp
-          path: timestamp.txt          
+          name: MemoryMatrix.ipa
+          path: "${IPA_PATH}/MemoryMatrix.ipa"
