@@ -24,7 +24,7 @@ do
     esac
 done
 
-archivePath="~/bld/MemoryMatrixApp.xcarchive"
+# archivePath="~/bld/MemoryMatrixApp.xcarchive"
 
 # Apple Distribution: Robert Zmudzinski (LK58XLFP48)
 ./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}" "${archivePath}"
