@@ -119,13 +119,13 @@ jobs:
         run: |          
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
-            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
           else 
             echo "Creating App Store Package..."
             currentRun=$(cat timestamp.txt)
             echo "Current Run: $currentRun"  
             # ./scripts/package.sh
-            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
           fi
           echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
           echo "appVersion: $appVersion" >> ~/ipa/changes.txt
