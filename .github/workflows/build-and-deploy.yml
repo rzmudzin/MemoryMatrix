@@ -40,7 +40,7 @@ on:
         description: Run Workflow Size Checks
       runner:
         type: choice
-        description: Job Type
+        description: Tools Version
         options:
         - "14"        
         - "15"           
@@ -78,6 +78,9 @@ jobs:
       - name: Inputs Validation
         run: |
             echo "Validating Inputs..."  
+            if ${{ inputs.attach-ipa }} == "true"; then
+              echo "Validating attach IPA request: Does build create an IPA?"
+            fi
 
   build-via-composite-action:
     if: inputs.build-using-composite-action == true 
