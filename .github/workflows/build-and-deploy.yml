@@ -72,11 +72,6 @@ jobs:
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
-      # - name: Start Azure Runner
-      #   if: ${{ inputs.deploy-via-azure }}
-      #   run: |          
-      #     echo "Running..."  
-          # ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
       - name: Download artifact
         if: ${{ false }}
         id: download-artifact
@@ -102,7 +97,7 @@ jobs:
           submodules: recursive
       - name: Build
         #if: ${{ false }}
-        run: |  
+        run: |
           echo "Building..."
           pwd
           ls -lah
@@ -124,9 +119,6 @@ jobs:
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
             xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
-            echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
-            echo "appVersion: $appVersion" >> ~/ipa/changes.txt
-            echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt
           else 
             echo "Creating App Store Package..."
             currentRun=$(cat timestamp.txt)
@@ -134,6 +126,9 @@ jobs:
             # ./scripts/package.sh
             xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
           fi
+          echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
+          echo "appVersion: $appVersion" >> ~/ipa/changes.txt
+          echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt          
           find ~/bld -name "*" > results.txt
           find ~/ipa -name "*" >> results.txt               
       # - name: Size Checks
