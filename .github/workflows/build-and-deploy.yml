@@ -12,6 +12,12 @@ on:
         description: 'Build Name'
         # Default value if no value is explicitly provided
         default: 'Memory Matrix'     
+
+
+      build-using-composite-action:
+        type: boolean
+        description: Build Via Composite Action
+        
       job-type:
         type: choice
         description: Job Type
@@ -65,12 +71,18 @@ jobs:
         run: |          
           echo "Starting Runner..."  
           ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+
+  build-via-composite-action:
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+      - name: Calculate New Build Number
+        run: |
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
      
   build:
-    # The type of runner that the job will run on
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Calculate New Build Number
         run: |
