@@ -27,7 +27,7 @@ done
 archivePath="~/bld/MemoryMatrixApp.xcarchive"
 
 # Apple Distribution: Robert Zmudzinski (LK58XLFP48)
-./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}"
+./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}" "${archivePath}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
