@@ -80,8 +80,14 @@ jobs:
             echo "Validating Inputs..."  
             if ${{ inputs.attach-ipa }} == "true"; then
               echo "Validating attach IPA request: Does build create an IPA?"
-              # echo "::error file={name},line={line},endLine={endLine},title={title}::{message}"
-              # exit 1
+              if [ "${{ inputs.job-type }}" != "Build IPA" ] && [ "${{ inputs.job-type }}" != "Deployment" ]; then
+                echo "Should Fail Build"
+                # (inputs.job-type == 'Build IPA'|| inputs.job-type == 'Deployment')
+                # echo "::error file={name},line={line},endLine={endLine},title={title}::{message}"
+                # exit 1
+              else
+                echo "Request to attach IPA is valid"
+              fi
             fi
 
   build-via-composite-action:
