@@ -81,11 +81,8 @@ jobs:
             if ${{ inputs.attach-ipa }} == "true"; then
               echo "Validating attach IPA request: Does build create an IPA?"
               if [ "${{ inputs.job-type }}" != "Build IPA" ] && [ "${{ inputs.job-type }}" != "Deployment" ]; then
-                echo "Should Fail Build"
                 echo "::error file={Inputs Validation},line={1},endLine={1},title={Inputs Validation}::{Attach IPA requested but job type does not create an IPA}"
                 exit 1
-              else
-                echo "Request to attach IPA is valid"
               fi
             fi
 
