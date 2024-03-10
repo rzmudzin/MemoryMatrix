@@ -156,7 +156,7 @@ jobs:
           fi
           
       - name: Upload Results
-        if: ${{ attach-ipa }}
+        if: ${{ inputs.attach-ipa }}
         uses: actions/upload-artifact@v2
         with:
           name: results
