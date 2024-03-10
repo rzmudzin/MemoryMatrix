@@ -33,35 +33,7 @@ echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
 echo "Uploading version $versionInfo build $buildNumber"
 
-xcrun altool --upload-app -f "${HOME}/ipa/MemoryMatrix.ipa" --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
+xcrun altool --upload-app -f "${path}" --type iOS --show-progress --apiKey $apiKey --apiIssuer $apiIssuer
 
-#newVersion=$versionInfo
-#newBuildNumber=$buildNumber
-#
-#infoPlist="~/bld/MemoryMatrixApp.xcarchive/Products/Applications/MemoryMatrix.app/Info.plist"
-#echo "CURRENT"
-#echo "========================================"
-#version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
-#buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
-#echo "Version: $version"
-#echo "Build: $buildNumber"
-#productVersion="$version-$buildNumber"
-#echo "Product version is ${productVersion}"
-#
-#eval /usr/libexec/PlistBuddy -c "'Set :CFBundleShortVersionString $newVersion'" $infoPlist
-#eval /usr/libexec/PlistBuddy -c "'Set :CFBundleVersion $newBuildNumber'" $infoPlist
-#
-#echo "UPDATED"
-#echo "========================================"
-#version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
-#buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
-#echo "Version: $version"
-#echo "Build: $buildNumber"
-#productVersion="$version-$buildNumber"
-#echo "Product version is ${productVersion}"
-#
-#echo "PACKAGING FOR UPLOAD"
-#echo "========================================"
-#./scripts/package.sh
 
 echo "Script Completed"
