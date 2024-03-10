@@ -91,18 +91,6 @@ jobs:
     needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
-      - name: Run Build And Deploy Via Composite Action
-        run: |
-            echo "Running Build And Deploy Via Composite Action"
-            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
-            echo "New Build Number: $newBuildNumber"
-            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
-      - name: Json Action Setup
-        id: json-action-setup
-        run: |
-            echo "Json Action Setup"
-            echo "Working Directory: ${GITHUB_WORKSPACE}"
-      
       - uses: actions/checkout@main
       - id: json-action-step
         name: Build Via Composition
