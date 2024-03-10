@@ -43,13 +43,16 @@ env:
     ipaName: MemoryMatrix.ipa
     appCenterToken: xxxxx2d2090d16faddb2421e47676b2016566225
     appCenterAppID: 'xxxxxxxx-70d1-d4b8-cd92-53e578e87523'
-    appVersion: 2.2.5
+    appVersion: 2.2.6
     ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
     ARCHIVE_PATH:  "${{ github.workspace }}/bld/MemoryMatrixApp.xcarchive"
+    IPA_PATH:  "${{ github.workspace }}/ipa"
+    
 jobs:
   start-runner:
+   if: ${{ inputs.deploy-via-azure }}
    runs-on: ubuntu-latest
    steps:
       - name: Checkout
@@ -121,19 +124,19 @@ jobs:
           echo "Packaging For Job Type: ${{ inputs.job-type }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
-            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath "${IPA_PATH}" -exportOptionsPlist ./export-enterprise.plist
           else 
             echo "Creating App Store Package..."
             currentRun=$(cat timestamp.txt)
             echo "Current Run: $currentRun"  
             # ./scripts/package.sh
-            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath "${IPA_PATH}" -exportOptionsPlist ./export-appstore.plist     
           fi
-          echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
-          echo "appVersion: $appVersion" >> ~/ipa/changes.txt
-          echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt          
+          echo "Workflow: ${{github.workflow}}" > "${IPA_PATH}/changes.txt"
+          echo "appVersion: $appVersion" >> "${IPA_PATH}/changes.txt"
+          echo "newBuildNumber: ${newBuildNumber}" >> "${IPA_PATH}/changes.txt"
           find "${ARCHIVE_PATH}" -name "*" > results.txt
-          find ~/ipa -name "*" >> results.txt               
+          find "${IPA_PATH}" -name "*" >> results.txt               
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}
       #   run: |
@@ -146,10 +149,10 @@ jobs:
         run: |    
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Uploading To App Center..."  
-            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "/Users/rzmudzinski/ipa/MemoryMatrix.ipa" --release-notes-file "/Users/rzmudzinski/ipa/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
+            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "${IPA_PATH}/MemoryMatrix.ipa" --release-notes-file "${IPA_PATH}/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
           else
             echo "Uploading To Apple App Store..."  
-            ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"          
+            ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId" -p "${IPA_PATH}/MemoryMatrix.ipa"
           fi
           
       - name: Upload Results
