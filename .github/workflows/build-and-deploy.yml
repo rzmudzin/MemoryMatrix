@@ -48,6 +48,8 @@ env:
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
     ARCHIVE_PATH:  "${{ github.workspace }}/bld/MemoryMatrixApp.xcarchive"
+    IPA_PATH:  "${{ github.workspace }}/ipa"
+    
 jobs:
   start-runner:
    runs-on: ubuntu-latest
@@ -121,19 +123,19 @@ jobs:
           echo "Packaging For Job Type: ${{ inputs.job-type }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
-            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath "${IPA_PATH}" -exportOptionsPlist ./export-enterprise.plist
           else 
             echo "Creating App Store Package..."
             currentRun=$(cat timestamp.txt)
             echo "Current Run: $currentRun"  
             # ./scripts/package.sh
-            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath "${IPA_PATH}" -exportOptionsPlist ./export-appstore.plist     
           fi
-          echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
-          echo "appVersion: $appVersion" >> ~/ipa/changes.txt
-          echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt          
+          echo "Workflow: ${{github.workflow}}" > "${IPA_PATH}/changes.txt"
+          echo "appVersion: $appVersion" >> "${IPA_PATH}/changes.txt"
+          echo "newBuildNumber: ${newBuildNumber}" >> "${IPA_PATH}/changes.txt"
           find "${ARCHIVE_PATH}" -name "*" > results.txt
-          find ~/ipa -name "*" >> results.txt               
+          find "${IPA_PATH}" -name "*" >> results.txt               
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}
       #   run: |
@@ -146,7 +148,7 @@ jobs:
         run: |    
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Uploading To App Center..."  
-            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "/Users/rzmudzinski/ipa/MemoryMatrix.ipa" --release-notes-file "/Users/rzmudzinski/ipa/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
+            appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "${IPA_PATH}/MemoryMatrix.ipa" --release-notes-file "${IPA_PATH}/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
           else
             echo "Uploading To Apple App Store..."  
             ./scripts/upload.sh -b "${newBuildNumber}" -v "$appVersion" -i "$ascIssuerId" -k "$ascKeyId"          
