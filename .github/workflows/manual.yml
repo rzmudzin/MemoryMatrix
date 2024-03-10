@@ -122,6 +122,7 @@ jobs:
       - name: Package
         if: inputs.job-type == 'Build IPA' || inputs.job-type == 'Deployment'
         run: |          
+          echo "Job Type: ${{ inputs.job-type }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
             xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
