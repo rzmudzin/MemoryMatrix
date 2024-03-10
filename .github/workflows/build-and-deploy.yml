@@ -72,8 +72,16 @@ jobs:
           echo "Starting Runner..."  
           ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
 
+  inputs-validation:
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+      - name: Inputs Validation
+        run: |
+            echo "Validating Inputs..."  
+
   build-via-composite-action:
     if: inputs.build-using-composite-action == true 
+    needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - name: Run Build And Deploy Via Composite Action
@@ -85,6 +93,7 @@ jobs:
      
   build:
     if: inputs.build-using-composite-action != true 
+    needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - name: Calculate New Build Number
