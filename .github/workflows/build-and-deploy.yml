@@ -97,6 +97,20 @@ jobs:
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
+      - name: Json Action Setup
+        id: json-action-setup
+        run: |
+            echo "Json Action Setup"
+            echo "Working Directory: ${GITHUB_WORKSPACE}"
+      
+      - uses: actions/checkout@main
+      - id: json-action-step
+        name: Json Step
+        uses: rzmudzin/json-composite-action@main
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          actionInputs: ${{ toJSON(inputs) }}
+          enable-extended-ops: false
      
   build:
     if: inputs.build-using-composite-action != true 
