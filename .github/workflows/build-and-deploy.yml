@@ -165,5 +165,5 @@ jobs:
         if: inputs.attach-ipa == true && (inputs.job-type == 'Build IPA'|| inputs.job-type == 'Deployment')
         uses: actions/upload-artifact@v2
         with:
-          name: MemoryMatrix.ipa
+          name: MemoryMatrix
           path: "${{ env.IPA_PATH }}/MemoryMatrix.ipa"
