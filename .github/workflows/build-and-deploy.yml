@@ -47,6 +47,7 @@ env:
     ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
+    ARCHIVE_PATH:  "${{ github.workspace }}/bld/MemoryMatrixApp.xcarchive"
 jobs:
   start-runner:
    runs-on: ubuntu-latest
@@ -108,28 +109,30 @@ jobs:
           echo "Is Enterprise App: ${{ inputs.enterprise-app }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Enterprise App"
-            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release" -i "${ARCHIVE_PATH}"
           else
             echo "App Store App"
-            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe -s "MemoryMatrix" -c "Release"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe -s "MemoryMatrix" -c "Release" -i "${ARCHIVE_PATH}"
           fi
           
       - name: Package
+        if: inputs.job-type == 'Build IPA' || inputs.job-type == 'Deployment'
         run: |          
+          echo "Packaging For Job Type: ${{ inputs.job-type }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
-            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-enterprise.plist
           else 
             echo "Creating App Store Package..."
             currentRun=$(cat timestamp.txt)
             echo "Current Run: $currentRun"  
             # ./scripts/package.sh
-            xcodebuild -exportArchive -archivePath ~/bld/MemoryMatrixApp.xcarchive -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
+            xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath ~/ipa -exportOptionsPlist ./export-appstore.plist     
           fi
           echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
           echo "appVersion: $appVersion" >> ~/ipa/changes.txt
           echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt          
-          find ~/bld -name "*" > results.txt
+          find "${ARCHIVE_PATH}" -name "*" > results.txt
           find ~/ipa -name "*" >> results.txt               
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}

@@ -24,8 +24,10 @@ do
     esac
 done
 
+# archivePath="~/bld/MemoryMatrixApp.xcarchive"
+
 # Apple Distribution: Robert Zmudzinski (LK58XLFP48)
-./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}"
+./scripts/archive.sh "${signingIdentity}" "${mobileProfile}" "${scheme}" "${config}" "${archivePath}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
@@ -33,7 +35,6 @@ echo "versionInfo: $versionInfo"
 newVersion=$versionInfo
 newBuildNumber=$buildNumber
 
-archivePath="~/bld/MemoryMatrixApp.xcarchive"
 archiveInfoPlist="$archivePath/Info.plist"
 infoPlist="$archivePath/Products/Applications/MemoryMatrix.app/Info.plist"
 
