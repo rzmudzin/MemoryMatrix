@@ -132,7 +132,7 @@ jobs:
           echo "Workflow: ${{github.workflow}}" > ~/ipa/changes.txt
           echo "appVersion: $appVersion" >> ~/ipa/changes.txt
           echo "newBuildNumber: ${newBuildNumber}" >> ~/ipa/changes.txt          
-          find ~/bld -name "*" > results.txt
+          find "${ARCHIVE_PATH}" -name "*" > results.txt
           find ~/ipa -name "*" >> results.txt               
       # - name: Size Checks
       #   if: ${{ inputs.run-workflow-size-check }}
