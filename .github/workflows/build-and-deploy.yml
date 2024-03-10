@@ -156,7 +156,7 @@ jobs:
           fi
           
       - name: Upload Results
-        if: ${{ inputs.attach-ipa }}
+        if: ${{ inputs.attach-ipa }} && (inputs.job-type == 'Build IPA' || inputs.job-type == 'Deployment')
         uses: actions/upload-artifact@v2
         with:
           name: results
