@@ -120,6 +120,7 @@ jobs:
           fi
           
       - name: Package
+        if: inputs.job-type == 'Build IPA' || inputs.job-type == 'Deployment'
         run: |          
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Creating Enterprise Package..."
