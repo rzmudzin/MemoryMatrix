@@ -73,7 +73,7 @@ jobs:
           ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
 
   build-via-composite-action:
-    if: build-using-composite-action == true 
+    if: inputs.build-using-composite-action == true 
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - name: Run Build And Deploy Via Composite Action
@@ -84,7 +84,7 @@ jobs:
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
      
   build:
-    if: build-using-composite-action != true 
+    if: inputs.build-using-composite-action != true 
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - name: Calculate New Build Number
