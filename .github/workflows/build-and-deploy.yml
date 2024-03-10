@@ -105,7 +105,7 @@ jobs:
       
       - uses: actions/checkout@main
       - id: json-action-step
-        name: Json Step
+        name: Build Via Composition
         uses: rzmudzin/phx-build-deploy-action@main
         with:
           secrets: ${{ toJSON(secrets) }}
