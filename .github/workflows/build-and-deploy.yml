@@ -47,7 +47,7 @@ env:
     ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
-    ARCHIVE_PATH:  "${GITHUB_WORKSPACE}/bld/MemoryMatrixApp.xcarchive"
+    ARCHIVE_PATH:  "${{ github.workspace }}/bld/MemoryMatrixApp.xcarchive"
 jobs:
   start-runner:
    runs-on: ubuntu-latest
