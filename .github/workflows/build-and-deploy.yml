@@ -156,7 +156,8 @@ jobs:
           fi
           
       - name: Upload Results
-        if: inputs.attach-ipa =='true' && inputs.job-type == 'Build IPA'
+        if: inputs.attach-ipa == 'true'
+        # && inputs.job-type == 'Build IPA'
         uses: actions/upload-artifact@v2
         with:
           name: results
