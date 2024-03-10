@@ -47,6 +47,7 @@ env:
     ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
     ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
     APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
+    ARCHIVE_PATH:  "${GITHUB_WORKSPACE}/bld/MemoryMatrixApp.xcarchive"
 jobs:
   start-runner:
    runs-on: ubuntu-latest
@@ -108,10 +109,10 @@ jobs:
           echo "Is Enterprise App: ${{ inputs.enterprise-app }}"
           if ${{ inputs.enterprise-app }} == "true"; then
             echo "Enterprise App"
-            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release" -i "~/bld/MemoryMatrixApp.xcarchive"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release" -i "${ARCHIVE_PATH}"
           else
             echo "App Store App"
-            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe -s "MemoryMatrix" -c "Release" -i "~/bld/MemoryMatrixApp.xcarchive"
+            ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "Apple Distribution: Robert Zmudzinski (LK58XLFP48)" -M cc7c62a4-7417-4578-b2f0-30b5f8fd50fe -s "MemoryMatrix" -c "Release" -i "${ARCHIVE_PATH}"
           fi
           
       - name: Package
