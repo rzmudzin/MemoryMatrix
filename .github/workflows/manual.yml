@@ -106,7 +106,8 @@ jobs:
           echo "Building..."
           pwd
           ls -lah
-          
+
+          echo "Job Type: ${{ inputs.job-type }}"
           echo "Workflow: ${{github.workflow}}"
           echo "appVersion: $appVersion"
           echo "newBuildNumber: ${newBuildNumber}"
