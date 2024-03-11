@@ -98,7 +98,7 @@ jobs:
       - uses: actions/checkout@main
       - id: build-via-composite-action-step
         name: Build Via Composition
-        uses: rzmudzin/phx-build-deploy-action@main
+        uses: rzmudzin/phx-build-deploy-action@multi-target-deploy
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
