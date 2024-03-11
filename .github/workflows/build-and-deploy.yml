@@ -102,7 +102,7 @@ jobs:
           enable-extended-ops: false
       - name: Build Summary
         run: |
-            echo "Build Number ${newBuildNumber" Completed"
+            echo "Build Number ${newBuildNumber} Completed"
      
   build:
     if: inputs.build-using-composite-action != true 
