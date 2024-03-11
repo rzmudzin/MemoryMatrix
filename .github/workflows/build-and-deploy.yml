@@ -36,6 +36,7 @@ on:
       enterprise-app:
         type: boolean
         description: Enterprise App
+        default: true
       app-store-app:
         type: boolean
         description: App Store App        
@@ -102,7 +103,7 @@ jobs:
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
-          is-enterprise-app-build: inputs.enterprise-app
+          is-enterprise-app-build: ${{ inputs.enterprise-app }}
           enable-extended-ops: false
       - name: Build Summary
         run: |
