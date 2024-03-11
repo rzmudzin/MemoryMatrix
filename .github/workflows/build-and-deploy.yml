@@ -17,6 +17,7 @@ on:
       build-using-composite-action:
         type: boolean
         description: Build Via Composite Action
+        default: true
         
       job-type:
         type: choice
