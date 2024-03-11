@@ -93,12 +93,13 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - uses: actions/checkout@main
-      - id: json-action-step
+      - id: build-via-composite-action-step
         name: Build Via Composition
         uses: rzmudzin/phx-build-deploy-action@main
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
+          is-enterprise-app-build: inputs.enterprise-app
           enable-extended-ops: false
       - name: Build Summary
         run: |
