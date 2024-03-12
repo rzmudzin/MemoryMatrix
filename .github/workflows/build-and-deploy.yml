@@ -11,7 +11,11 @@ on:
       name:
         description: 'Build Name'
         # Default value if no value is explicitly provided
-        default: 'Memory Matrix'     
+        default: 'Memory Matrix'   
+      enterprise-provisioning-profile:
+        description: 'Enterprise Provisioning Profile'
+        # Default value if no value is explicitly provided
+        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'           
 
       strategy:
         type: choice
@@ -106,7 +110,7 @@ jobs:
       - id: enterprise-build-via-composite-action-step
         name: Enterprise Build Via Composition
         if: inputs.enterprise-app == true
-        uses: rzmudzin/phx-build-deploy-action@main
+        uses: rzmudzin/phx-build-deploy-action@certs
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
@@ -121,7 +125,7 @@ jobs:
       - id: appstore-build-via-composite-action-step
         name: App Store Build Via Composition
         if: inputs.app-store-app == true
-        uses: rzmudzin/phx-build-deploy-action@main
+        uses: rzmudzin/phx-build-deploy-action@certs
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
