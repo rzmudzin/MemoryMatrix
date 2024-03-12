@@ -13,7 +13,12 @@ on:
         # Default value if no value is explicitly provided
         default: 'Memory Matrix'     
 
-
+      strategy:
+        type: choice
+        description: Tools Version
+        options:
+        - "Composite Action"        
+        - "Inline"           
       build-using-composite-action:
         type: boolean
         description: Build Via Composite Action
@@ -92,7 +97,8 @@ jobs:
             fi
 
   build-via-composite-action:
-    if: inputs.build-using-composite-action == true 
+    # if: inputs.build-using-composite-action == true 
+    if: inputs.strategy == 'Composite Action'
     needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
@@ -127,7 +133,8 @@ jobs:
             echo "Build Number ${newBuildNumber} Completed"            
      
   build:
-    if: inputs.build-using-composite-action != true 
+    # if: inputs.build-using-composite-action != true 
+    if: inputs.strategy == 'Inline'
     needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
