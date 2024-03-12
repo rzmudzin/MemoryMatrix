@@ -13,11 +13,16 @@ on:
         # Default value if no value is explicitly provided
         default: 'Memory Matrix'     
 
-
-      build-using-composite-action:
-        type: boolean
-        description: Build Via Composite Action
-        default: true
+      strategy:
+        type: choice
+        description: Build Strategy
+        options:
+        - "Composite Action"        
+        - "Inline"           
+      # build-using-composite-action:
+      #   type: boolean
+      #   description: Build Via Composite Action
+      #   default: true
         
       job-type:
         type: choice
@@ -36,6 +41,10 @@ on:
       enterprise-app:
         type: boolean
         description: Enterprise App
+        default: true
+      app-store-app:
+        type: boolean
+        description: App Store App        
       run-workflow-size-check:
         type: boolean
         description: Run Workflow Size Checks
@@ -88,25 +97,44 @@ jobs:
             fi
 
   build-via-composite-action:
-    if: inputs.build-using-composite-action == true 
+    # if: inputs.build-using-composite-action == true 
+    if: inputs.strategy == 'Composite Action'
     needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - uses: actions/checkout@main
-      - id: build-via-composite-action-step
-        name: Build Via Composition
+      - id: enterprise-build-via-composite-action-step
+        name: Enterprise Build Via Composition
+        if: inputs.enterprise-app == true
         uses: rzmudzin/phx-build-deploy-action@main
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
-          is-enterprise-app-build: inputs.enterprise-app
+          is-enterprise-app-build: true
           enable-extended-ops: false
-      - name: Build Summary
+      - name: Enterprise Build Summary
+        if: inputs.enterprise-app == true
         run: |
             echo "Build Number ${newBuildNumber} Completed"
+
+      - uses: actions/checkout@main
+      - id: appstore-build-via-composite-action-step
+        name: App Store Build Via Composition
+        if: inputs.app-store-app == true
+        uses: rzmudzin/phx-build-deploy-action@main
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          actionInputs: ${{ toJSON(inputs) }}
+          is-enterprise-app-build: false
+          enable-extended-ops: false
+      - name: App Store Build Summary
+        if: inputs.app-store-app == true
+        run: |
+            echo "Build Number ${newBuildNumber} Completed"            
      
   build:
-    if: inputs.build-using-composite-action != true 
+    # if: inputs.build-using-composite-action != true 
+    if: inputs.strategy == 'Inline'
     needs: [inputs-validation]
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
