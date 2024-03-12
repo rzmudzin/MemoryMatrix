@@ -97,17 +97,34 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - uses: actions/checkout@main
-      - id: build-via-composite-action-step
-        name: Build Via Composition
+      - id: enterprise-build-via-composite-action-step
+        name: Enterprise Build Via Composition
+        if: inputs.enterprise-app == true
         uses: rzmudzin/phx-build-deploy-action@multi-target-deploy
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
-          is-enterprise-app-build: ${{ inputs.enterprise-app }}
+          is-enterprise-app-build: true
           enable-extended-ops: false
-      - name: Build Summary
+      - name: Enterprise Build Summary
+        if: inputs.enterprise-app == true
         run: |
             echo "Build Number ${newBuildNumber} Completed"
+
+      - uses: actions/checkout@main
+      - id: appstore-build-via-composite-action-step
+        name: App Store Build Via Composition
+        if: inputs.app-store-app == true
+        uses: rzmudzin/phx-build-deploy-action@multi-target-deploy
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          actionInputs: ${{ toJSON(inputs) }}
+          is-enterprise-app-build: false
+          enable-extended-ops: false
+      - name: App Store Build Summary
+        if: inputs.app-store-app == true
+        run: |
+            echo "Build Number ${newBuildNumber} Completed"            
      
   build:
     if: inputs.build-using-composite-action != true 
