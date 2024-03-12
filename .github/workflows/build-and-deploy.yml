@@ -19,10 +19,10 @@ on:
         options:
         - "Composite Action"        
         - "Inline"           
-      build-using-composite-action:
-        type: boolean
-        description: Build Via Composite Action
-        default: true
+      # build-using-composite-action:
+      #   type: boolean
+      #   description: Build Via Composite Action
+      #   default: true
         
       job-type:
         type: choice
