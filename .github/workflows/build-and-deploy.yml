@@ -106,7 +106,7 @@ jobs:
       - id: enterprise-build-via-composite-action-step
         name: Enterprise Build Via Composition
         if: inputs.enterprise-app == true
-        uses: rzmudzin/phx-build-deploy-action@multi-target-deploy
+        uses: rzmudzin/phx-build-deploy-action@main
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
@@ -121,7 +121,7 @@ jobs:
       - id: appstore-build-via-composite-action-step
         name: App Store Build Via Composition
         if: inputs.app-store-app == true
-        uses: rzmudzin/phx-build-deploy-action@multi-target-deploy
+        uses: rzmudzin/phx-build-deploy-action@main
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
