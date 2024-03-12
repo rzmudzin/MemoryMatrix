@@ -15,7 +15,7 @@ on:
 
       strategy:
         type: choice
-        description: Tools Version
+        description: Build Strategy
         options:
         - "Composite Action"        
         - "Inline"           
