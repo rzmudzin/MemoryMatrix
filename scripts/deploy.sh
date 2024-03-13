@@ -31,7 +31,7 @@ done
 
 #xcodebuild -project MemoryMatrix.xcodeproj clean archive -scheme "${scheme}" -configuration "${config}" -archivePath "${archivePath}" CODE_SIGN_IDENTITY="${signingIdentity}" EXPANDED_CODE_SIGN_IDENTITY="26A81253A00C87FE083195619F265D8423F790B7" CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE="${mobileProfile}" CODE_SIGNING_REQUIRED=YES CODE_SIGNING_ALLOWED=NO
 
-xcodebuild -project MemoryMatrix.xcodeproj clean archive -scheme "${scheme}" -configuration "${config}" -archivePath "${archivePath}" CODE_SIGN_IDENTITY="${signingIdentity}" CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE="${mobileProfile}"
+xcodebuild -project MemoryMatrix.xcodeproj clean archive -scheme "${scheme}" -configuration "${config}" -archivePath "${archivePath}" CODE_SIGN_IDENTITY="${signingIdentity}" CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE_SPECIFIER="${mobileProfile}"
 
 echo "buildNumber: $buildNumber"
 echo "versionInfo: $versionInfo"
