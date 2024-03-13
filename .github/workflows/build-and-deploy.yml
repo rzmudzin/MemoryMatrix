@@ -15,7 +15,11 @@ on:
       enterprise-provisioning-profile:
         description: 'Enterprise Provisioning Profile'
         # Default value if no value is explicitly provided
-        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'           
+        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'  
+      enterprise-signing-certificate:
+        description: 'Enterprise Signing Certificate'
+        # Default value if no value is explicitly provided
+        default: '26A81253A00C87FE083195619F265D8423F790B7'
 
       strategy:
         type: choice
