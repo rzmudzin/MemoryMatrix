@@ -4,6 +4,8 @@
 <dict>
 	<key>method</key>
 	<string>enterprise</string>
+	<key>signingCertificate</key>
+	<string>26A81253A00C87FE083195619F265D8423F790B7</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.phoenixroberts.phxr</key>
