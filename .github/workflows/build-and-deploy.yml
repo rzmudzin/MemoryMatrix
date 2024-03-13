@@ -8,10 +8,11 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
-        description: 'Build Name'
-        # Default value if no value is explicitly provided
-        default: 'Memory Matrix'   
+      # name:
+      #   description: 'Build Name'
+      #   # Default value if no value is explicitly provided
+      #   default: 'Memory Matrix'   
+        
       enterprise-provisioning-profile:
         description: 'Enterprise Provisioning Profile'
         # Default value if no value is explicitly provided
