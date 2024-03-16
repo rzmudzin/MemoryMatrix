@@ -126,20 +126,20 @@ jobs:
         run: |
             echo "Build Number ${newBuildNumber} Completed"
 
-      # - uses: actions/checkout@main
-      # - id: appstore-build-via-composite-action-step
-      #   name: App Store Build Via Composition
-      #   if: inputs.app-store-app == true
-      #   uses: rzmudzin/phx-build-deploy-action@certs
-      #   with:
-      #     secrets: ${{ toJSON(secrets) }}
-      #     actionInputs: ${{ toJSON(inputs) }}
-      #     is-enterprise-app-build: false
-      #     enable-extended-ops: false
-      # - name: App Store Build Summary
-      #   if: inputs.app-store-app == true
-      #   run: |
-      #       echo "Build Number ${newBuildNumber} Completed"            
+      - uses: actions/checkout@main
+      - id: appstore-build-via-composite-action-step
+        name: App Store Build Via Composition
+        if: inputs.app-store-app == true
+        uses: rzmudzin/phx-build-deploy-action@certs
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          actionInputs: ${{ toJSON(inputs) }}
+          is-enterprise-app-build: false
+          enable-extended-ops: false
+      - name: App Store Build Summary
+        if: inputs.app-store-app == true
+        run: |
+            echo "Build Number ${newBuildNumber} Completed"            
      
   build:
     # if: inputs.build-using-composite-action != true 
