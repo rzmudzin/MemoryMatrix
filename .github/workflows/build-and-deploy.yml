@@ -8,10 +8,19 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
-        description: 'Build Name'
+      # name:
+      #   description: 'Build Name'
+      #   # Default value if no value is explicitly provided
+      #   default: 'Memory Matrix'   
+        
+      enterprise-provisioning-profile:
+        description: 'Enterprise Provisioning Profile'
         # Default value if no value is explicitly provided
-        default: 'Memory Matrix'     
+        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'  
+      enterprise-signing-certificate:
+        description: 'Enterprise Signing Certificate'
+        # Default value if no value is explicitly provided
+        default: '26A81253A00C87FE083195619F265D8423F790B7'
 
       strategy:
         type: choice
@@ -106,7 +115,7 @@ jobs:
       - id: enterprise-build-via-composite-action-step
         name: Enterprise Build Via Composition
         if: inputs.enterprise-app == true
-        uses: rzmudzin/phx-build-deploy-action@main
+        uses: rzmudzin/phx-build-deploy-action@certs
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
@@ -121,7 +130,7 @@ jobs:
       - id: appstore-build-via-composite-action-step
         name: App Store Build Via Composition
         if: inputs.app-store-app == true
-        uses: rzmudzin/phx-build-deploy-action@main
+        uses: rzmudzin/phx-build-deploy-action@certs
         with:
           secrets: ${{ toJSON(secrets) }}
           actionInputs: ${{ toJSON(inputs) }}
