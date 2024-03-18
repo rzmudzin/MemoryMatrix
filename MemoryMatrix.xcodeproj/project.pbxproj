@@ -13,6 +13,7 @@
 		130554E3284E6ABC009F6381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 130554E1284E6ABC009F6381 /* Main.storyboard */; };
 		130554E5284E6ABE009F6381 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 130554E4284E6ABE009F6381 /* Assets.xcassets */; };
 		130554E8284E6ABE009F6381 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 130554E6284E6ABE009F6381 /* LaunchScreen.storyboard */; };
+		132468D02BA7D4590042A350 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132468CF2BA7D4590042A350 /* AboutViewController.swift */; };
 		13D2CF54284E7F970085DDAD /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13D2CF53284E7F970085DDAD /* Sounds */; };
 		13D2CF56284E81AD0085DDAD /* GameOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF55284E81AD0085DDAD /* GameOptionsViewController.swift */; };
 		13D2CF58284E82160085DDAD /* HighScoresViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF57284E82160085DDAD /* HighScoresViewController.swift */; };
@@ -32,6 +33,8 @@
 		130554E4284E6ABE009F6381 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		130554E7284E6ABE009F6381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		130554E9284E6ABE009F6381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		132468CF2BA7D4590042A350 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		13C282FF2BA5F1AF0096F402 /* BaseConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BaseConfig.xcconfig; sourceTree = "<group>"; };
 		13D2CF53284E7F970085DDAD /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		13D2CF55284E81AD0085DDAD /* GameOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOptionsViewController.swift; sourceTree = "<group>"; };
 		13D2CF57284E82160085DDAD /* HighScoresViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoresViewController.swift; sourceTree = "<group>"; };
@@ -72,11 +75,13 @@
 		130554DA284E6ABC009F6381 /* MemoryMatrix */ = {
 			isa = PBXGroup;
 			children = (
+				13C282FE2BA5F1610096F402 /* Configs */,
 				130554DB284E6ABC009F6381 /* AppDelegate.swift */,
 				13D2CF5B284E83770085DDAD /* GameIcons */,
 				13D2CF63284E97670085DDAD /* GameBoardViewController.swift */,
 				130554DF284E6ABC009F6381 /* GameMainViewController.swift */,
 				13D2CF55284E81AD0085DDAD /* GameOptionsViewController.swift */,
+				132468CF2BA7D4590042A350 /* AboutViewController.swift */,
 				13D2CF57284E82160085DDAD /* HighScoresViewController.swift */,
 				130554DD284E6ABC009F6381 /* SceneDelegate.swift */,
 				13D2CF53284E7F970085DDAD /* Sounds */,
@@ -89,6 +94,14 @@
 				13D2CF65284ED8F60085DDAD /* ScoringEngine.swift */,
 			);
 			path = MemoryMatrix;
+			sourceTree = "<group>";
+		};
+		13C282FE2BA5F1610096F402 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				13C282FF2BA5F1AF0096F402 /* BaseConfig.xcconfig */,
+			);
+			path = Configs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +185,7 @@
 				13D2CF56284E81AD0085DDAD /* GameOptionsViewController.swift in Sources */,
 				13D2CF5E284E8FF80085DDAD /* SelectIconsViewController.swift in Sources */,
 				13D2CF60284E91710085DDAD /* MemoryMatrixApp.swift in Sources */,
+				132468D02BA7D4590042A350 /* AboutViewController.swift in Sources */,
 				13D2CF66284ED8F60085DDAD /* ScoringEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,6 +328,7 @@
 		};
 		130554ED284E6ABE009F6381 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 13C282FF2BA5F1AF0096F402 /* BaseConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
