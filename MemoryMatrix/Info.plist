@@ -23,5 +23,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>AboutText</key>
+	<string>$(DESCRIPTION)</string>
 </dict>
 </plist>
