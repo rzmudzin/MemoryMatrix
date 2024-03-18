@@ -12,6 +12,7 @@ class GameMainViewController: UIViewController {
 	var startGameButton = UIButton();
 	var highScoresButton = UIButton()
 	var optionsButton = UIButton()
+    var aboutButton = UIButton()
 	var yahooSound: AVAudioPlayer? = nil
 	
 	func playYahoo() async {
@@ -36,6 +37,7 @@ class GameMainViewController: UIViewController {
 		view.addSubview(startGameButton)
 		view.addSubview(highScoresButton)
 		view.addSubview(optionsButton)
+        view.addSubview(aboutButton)
 		
 		highScoresButton.setImage(UIImage(named: "HScores"), for: .normal)
 		highScoresButton.addTarget(self, action: #selector(showHighScores), for: .touchUpInside)
@@ -43,10 +45,13 @@ class GameMainViewController: UIViewController {
 		optionsButton.addTarget(self, action: #selector(showGameOptions), for: .touchUpInside)
 		startGameButton.setImage(UIImage(named: "start"), for: .normal)
 		startGameButton.addTarget(self, action: #selector(onStartGame), for: .touchUpInside)
+        aboutButton.setImage(UIImage(named: "About"), for: .normal)
+        aboutButton.addTarget(self, action: #selector(showAboutGame), for: .touchUpInside)
 		
 		startGameButton.translatesAutoresizingMaskIntoConstraints = false
 		highScoresButton.translatesAutoresizingMaskIntoConstraints = false
 		optionsButton.translatesAutoresizingMaskIntoConstraints = false
+        aboutButton.translatesAutoresizingMaskIntoConstraints = false
 		
 		startGameButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		NSLayoutConstraint(
@@ -62,13 +67,14 @@ class GameMainViewController: UIViewController {
 //		buttonConstraintsA()
 //		buttonConstraintsB()
 		buttonConstraintsC()
+        
+        
 	}
 	
 	func buttonConstraintsA() {
 		optionsButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -45).isActive = true
 		optionsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		highScoresButton.bottomAnchor.constraint(equalTo: optionsButton.topAnchor, constant: -5).isActive = true
-		highScoresButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 	}
 	
 	func buttonConstraintsB() {
@@ -85,6 +91,9 @@ class GameMainViewController: UIViewController {
 		
 		optionsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		optionsButton.topAnchor.constraint(equalTo: highScoresButton.bottomAnchor, constant: 5).isActive = true
+        
+
+        
 	}
 	
 	func buttonConstraintsC() {
@@ -94,13 +103,16 @@ class GameMainViewController: UIViewController {
 			relatedBy: .equal,
 			toItem: startGameButton,
 			attribute: .bottom,
-			multiplier: 1.35,
+			multiplier: 1.20,
 			constant: 0
 		).isActive = true
 		highScoresButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		
 		optionsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		optionsButton.topAnchor.constraint(equalTo: highScoresButton.bottomAnchor, constant: 20).isActive = true
+        
+        aboutButton.leadingAnchor.constraint(equalTo: highScoresButton.leadingAnchor).isActive = true
+        aboutButton.topAnchor.constraint(equalTo: optionsButton.bottomAnchor, constant: 20).isActive = true
 	}
 
 	
@@ -114,6 +126,11 @@ class GameMainViewController: UIViewController {
 		let gameOptionsVC = GameOptionsViewController()
 		self.navigationController?.pushViewController(gameOptionsVC, animated: true)
 	}
+    @objc func showAboutGame() {
+        print("Show Game Options")
+        let aboutGameVC = AboutViewController()
+        self.navigationController?.pushViewController(aboutGameVC, animated: true)
+    }
 	@objc func onStartGame() {
 		Task {
 			await playYahoo()
