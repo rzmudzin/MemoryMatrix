@@ -17,12 +17,12 @@ def eprint(*args, **kwargs):
 
 def warningAction(file: str, text: str):
     eprint(text)
-    subprocess.call(["echo", file + ":0:warning:" + text])
+    subprocess.call(["echo", "::warning file=" + file + " ::" + text])
 
 
 def errorAction(file: str, text: str):
     eprint(text)
-    subprocess.call(["echo", file + ":0:error:" + text])
+    subprocess.call(["echo", "::error file=" + file + " " + text])
     
 def csvAction(file: str, text: str):
     subprocess.call(["echo", file + "," + text])
@@ -209,6 +209,8 @@ def mainFunc(config: SizeCheckConfig):
 if __name__ == '__main__':
     config = SizeCheckConfig()
     
+    # warningAction("test.txt", "Test Warning")
+    # errorAction("test.txt", "Test Error")
     if isDebug() == False:
         parser = argparse.ArgumentParser()
         parser.add_argument("--cpath", help="Path to evaluate")
