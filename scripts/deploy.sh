@@ -42,6 +42,10 @@ newBuildNumber=$buildNumber
 archiveInfoPlist="$archivePath/Info.plist"
 infoPlist="$archivePath/Products/Applications/MemoryMatrix.app/Info.plist"
 
+echo $infoPlist
+ls -lah $infoPlist
+cat $infoPlist
+
 echo "CURRENT"
 echo "========================================"
 version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
