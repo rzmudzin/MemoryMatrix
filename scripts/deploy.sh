@@ -42,6 +42,12 @@ newBuildNumber=$buildNumber
 archiveInfoPlist="$archivePath/Info.plist"
 infoPlist="$archivePath/Products/Applications/MemoryMatrix.app/Info.plist"
 
+echo "Archive: $archivePath"
+cd $archivePath
+find . -name "*.plst"
+cd ..
+pwd
+find . -name "*.plst"
 echo $infoPlist
 ls -lah $infoPlist
 cat $infoPlist
