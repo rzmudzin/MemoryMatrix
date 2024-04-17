@@ -39,17 +39,13 @@ echo "versionInfo: $versionInfo"
 newVersion=$versionInfo
 newBuildNumber=$buildNumber
 
+archivePath="${archivePath}.xcarchive"
 archiveInfoPlist="$archivePath/Info.plist"
 infoPlist="$archivePath/Products/Applications/MemoryMatrix.app/Info.plist"
 
 echo "Archive: $archivePath"
-cd $archivePath
 echo "Searching Archive Folder"
-find . -name "*.plst"
-cd ..
-pwd
-echo "Searching Root Folder"
-find . -name "*.plst"
+find $archivePath -name "*.plst"
 echo $infoPlist
 ls -lah $infoPlist
 cat $infoPlist
