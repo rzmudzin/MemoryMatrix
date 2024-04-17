@@ -70,20 +70,21 @@ echo "Product version is ${productVersion}"
 eval /usr/libexec/PlistBuddy -c "'Set :CFBundleShortVersionString $newVersion'" $infoPlist
 eval /usr/libexec/PlistBuddy -c "'Set :CFBundleVersion $newBuildNumber'" $infoPlist
 eval /usr/libexec/PlistBuddy -c "'Set ApplicationProperties:CFBundleShortVersionString $newVersion'" $archiveInfoPlist
-eval /usr/libexec/PlistBuddy -c "'Set ApplicationProperties:CFBundleVersion $newBuildNumber'" $archiveInfoPlist
 
-echo "UPDATED"
-echo "========================================"
-version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
-buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
-packageVersion=$(eval "/usr/libexec/PlistBuddy -c 'print ApplicationProperties:CFBundleShortVersionString' $archiveInfoPlist")
-packageBuildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print ApplicationProperties:CFBundleVersion' $archiveInfoPlist")
-echo "Package Version: $packageVersion"
-echo "Package Build: $packageBuildNumber"
-echo "Version: $version"
-echo "Build: $buildNumber"
-productVersion="$version-$buildNumber"
-echo "Product version is ${productVersion}"
+# eval /usr/libexec/PlistBuddy -c "'Set ApplicationProperties:CFBundleVersion $newBuildNumber'" $archiveInfoPlist
+
+# echo "UPDATED"
+# echo "========================================"
+# version=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleShortVersionString' $infoPlist")
+# buildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print CFBundleVersion' $infoPlist")
+# packageVersion=$(eval "/usr/libexec/PlistBuddy -c 'print ApplicationProperties:CFBundleShortVersionString' $archiveInfoPlist")
+# packageBuildNumber=$(eval "/usr/libexec/PlistBuddy -c 'print ApplicationProperties:CFBundleVersion' $archiveInfoPlist")
+# echo "Package Version: $packageVersion"
+# echo "Package Build: $packageBuildNumber"
+# echo "Version: $version"
+# echo "Build: $buildNumber"
+# productVersion="$version-$buildNumber"
+# echo "Product version is ${productVersion}"
 
 echo "PACKAGING FOR UPLOAD"
 echo "========================================"
