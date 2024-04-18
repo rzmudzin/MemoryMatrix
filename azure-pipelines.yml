@@ -1,19 +1,142 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: macos-13
+  steps:
+  - checkout: self
+    clean: true
+    fetchTags: false
+  - task: InstallAppleCertificate@2
+    displayName: Install an Apple certificate
+    inputs:
+      certSecureFile: b81b435b-5dac-4665-8ab1-9de191ce3b8a
+      certPwd: Gato0474
+      deleteCert: false
+      deleteCustomKeychain: false
+      setUpPartitionIdACLForPrivateKey: false
+  - task: InstallAppleCertificate@2
+    displayName: Install an Apple certificate
+    inputs:
+      certSecureFile: 1faaccb3-d510-47d9-bbf0-ee7563d4045e
+      certPwd: Gato0474
+      deleteCert: false
+      deleteCustomKeychain: false
+      setUpPartitionIdACLForPrivateKey: false
+  - task: InstallAppleProvisioningProfile@1
+    displayName: Install an Apple provisioning profile
+    inputs:
+      provProfileSecureFile: 80aee6fa-ae86-44e9-8612-4bc97cc9073c
+  - task: InstallAppleProvisioningProfile@1
+    displayName: Install an Apple provisioning profile
+    inputs:
+      provProfileSecureFile: ed39df70-f4dd-4837-8c2c-0a481f5909bd
+  - task: CmdLine@2
+    displayName: Calculate Build Number
+    inputs:
+      script: >-
+        echo Write your commands here
 
-trigger:
-- main
 
-pool:
-  vmImage: ubuntu-latest
+        echo "Build: $(Build.BuildNumber)"
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a quick test script'
+        echo "BuildDirectory: $(Agent.BuildDirectory)"
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+        pwd
+
+        ls -lah
+
+        #find . -name "*.plist"
+
+        echo "SourcesDirectory: $(Build.SourcesDirectory)"
+  - task: CmdLine@2
+    displayName: Execute Build I
+    enabled: False
+    inputs:
+      script: >2-
+
+        export newBuildNumber=500
+
+        export appVersion=2.2.6
+
+        export ARCHIVE_PATH="$(Agent.BuildDirectory)"/bld
+
+        mkdir "${ARCHIVE_PATH}"
+
+        ls -lah "$(Agent.BuildDirectory)"
+
+
+        #./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release" -i "${ARCHIVE_PATH}"
+
+
+        xcodebuild -project MemoryMatrix.xcodeproj clean archive -scheme "Enterprise MemoryMatrix" -configuration "Enterprise Release" -archivePath "${ARCHIVE_PATH}" CODE_SIGN_IDENTITY="iPhone Distribution: Phoenix Roberts LLC" CODE_SIGN_STYLE=Manual PROVISIONING_PROFILE_SPECIFIER="dae3007d-dbd8-4f85-bfbd-5cbef813cd3b"
+
+
+        echo "Searching Archive..."
+
+        find ${ARCHIVE_PATH} -name "*"
+  - task: CmdLine@2
+    displayName: Post Build Processing I
+    enabled: False
+    inputs:
+      script: "echo \"Searching for plist files...\"\ncd \nfind . -name \"*.plist\"\n"
+  - task: CmdLine@2
+    displayName: Execute Build II
+    inputs:
+      script: >
+        export newBuildNumber=500
+
+        export appVersion=2.2.6
+
+        export ARCHIVE_PATH="$(Agent.BuildDirectory)"/bld
+
+
+        ./scripts/deploy.sh -b "${newBuildNumber}" -v "$appVersion" -S "iPhone Distribution: Phoenix Roberts LLC" -M dae3007d-dbd8-4f85-bfbd-5cbef813cd3b -s "Enterprise MemoryMatrix" -c "Enterprise Release" -i "${ARCHIVE_PATH}"
+
+
+        FOO="some value"
+
+        echo "##vso[task.setvariable variable=FOO]$FOO"
+
+
+        export ARCHIVE_PATH="${ARCHIVE_PATH}.xcarchive"
+
+        echo "##vso[task.setvariable variable=ARCHIVE_PATH]$ARCHIVE_PATH"
+  - task: CmdLine@2
+    displayName: Post Build Processing II
+    inputs:
+      script: >+
+        echo "FOO: $(FOO)"
+
+        export ARCHIVE_PATH=$(ARCHIVE_PATH)
+
+
+        echo "Searching Archive at $ARCHIVE_PATH"
+
+        find ${ARCHIVE_PATH} -name "*.plist"
+
+  - task: CmdLine@2
+    displayName: Package
+    inputs:
+      script: >-
+        IPA_PATH="$(Agent.BuildDirectory)"/ipa
+
+        mkidr ${IPA_PATH}
+
+
+        xcodebuild -exportArchive -archivePath "${ARCHIVE_PATH}" -exportPath "${IPA_PATH}" -exportOptionsPlist ./export-enterprise.plist
+
+
+        ls -lah $IPA_PATH
+
+
+        cp "${IPA_PATH}/MemoryMatrix.ipa" $(build.artifactstagingdirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+...
