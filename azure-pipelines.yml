@@ -146,5 +146,9 @@ jobs:
     displayName: 'Publish Artifact: drop'
   - ${{ if eq(parameters.runAppCenterTask, true) }}:
     - script: |
-       echo Hello, world!
+       echo "Uploading To App Center..."  
+       IPA_PATH="$(Agent.BuildDirectory)"/ipa
+       echo "Build: $(Build.BuildNumber)" >> "${IPA_PATH}/changes.txt"
+       appcenter distribute release --app "rzmudzin-s9j5/Matrix" --file "${IPA_PATH}/MemoryMatrix.ipa" --release-notes-file "${IPA_PATH}/changes.txt" --token f8ce02d0928ad5364cadbf43545707805c9d1660 --group "Collaborators"
+        
       displayName: 'Upload To App Center'
