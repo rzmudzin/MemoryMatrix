@@ -142,18 +142,24 @@ jobs:
 
 
         cp "${IPA_PATH}/MemoryMatrix.ipa" $(build.artifactstagingdirectory)
-  - task: CmdLine@2
-    displayName: Install App Center
-    inputs:
-      script: >-
-       echo "Installing App Center CLI"
-       npm install -g appcenter-cli@2.12.0
+  # - task: CmdLine@2
+  #   displayName: Install App Center
+  #   inputs:
+  #     script: >-
+  #      echo "Installing App Center CLI"
+  #      npm install -g appcenter-cli@2.12.0
 
                 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
   - ${{ if eq(parameters.runAppCenterTask, true) }}:
     - script: |
+
+       echo "Installing App Center CLI"
+       npm install -g appcenter-cli@2.12.0
+
+       npm --version
+       appcenter --version
 
        echo "Uploading To App Center..."  
        IPA_PATH="$(Agent.BuildDirectory)"/ipa
