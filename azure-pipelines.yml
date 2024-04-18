@@ -144,4 +144,7 @@ jobs:
         cp "${IPA_PATH}/MemoryMatrix.ipa" $(build.artifactstagingdirectory)
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
-...
+  - ${{ if eq(parameters.runAppCenterTask, true) }}:
+    - script: |
+       echo Hello, world!
+      displayName: 'Upload To App Center'
