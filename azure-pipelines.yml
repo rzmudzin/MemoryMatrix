@@ -146,6 +146,8 @@ jobs:
     displayName: 'Publish Artifact: drop'
   - ${{ if eq(parameters.runAppCenterTask, true) }}:
     - script: |
+       echo "Installing App Center CLI"
+       npm install -g appcenter-cli@1.2.2
        echo "Uploading To App Center..."  
        IPA_PATH="$(Agent.BuildDirectory)"/ipa
        echo "Build: $(Build.BuildNumber)" >> "${IPA_PATH}/changes.txt"
