@@ -22,6 +22,7 @@
 		13D2CF60284E91710085DDAD /* MemoryMatrixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */; };
 		13D2CF64284E97670085DDAD /* GameBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF63284E97670085DDAD /* GameBoardViewController.swift */; };
 		13D2CF66284ED8F60085DDAD /* ScoringEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2CF65284ED8F60085DDAD /* ScoringEngine.swift */; };
+		9B901A2D2BEEB0E6007D88D8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9B901A2C2BEEB0E6007D88D8 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryMatrixApp.swift; sourceTree = "<group>"; };
 		13D2CF63284E97670085DDAD /* GameBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardViewController.swift; sourceTree = "<group>"; };
 		13D2CF65284ED8F60085DDAD /* ScoringEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringEngine.swift; sourceTree = "<group>"; };
+		9B901A2C2BEEB0E6007D88D8 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				13D2CF5D284E8FF80085DDAD /* SelectIconsViewController.swift */,
 				13D2CF5F284E91710085DDAD /* MemoryMatrixApp.swift */,
 				13D2CF65284ED8F60085DDAD /* ScoringEngine.swift */,
+				9B901A2C2BEEB0E6007D88D8 /* Localizable.xcstrings */,
 			);
 			path = MemoryMatrix;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 130554CF284E6ABC009F6381;
 			productRefGroup = 130554D9284E6ABC009F6381 /* Products */;
@@ -164,6 +168,7 @@
 			files = (
 				13D2CF5C284E83770085DDAD /* GameIcons in Resources */,
 				130554E8284E6ABE009F6381 /* LaunchScreen.storyboard in Resources */,
+				9B901A2D2BEEB0E6007D88D8 /* Localizable.xcstrings in Resources */,
 				130554E5284E6ABE009F6381 /* Assets.xcassets in Resources */,
 				13D2CF54284E7F970085DDAD /* Sounds in Resources */,
 				130554E3284E6ABC009F6381 /* Main.storyboard in Resources */,
