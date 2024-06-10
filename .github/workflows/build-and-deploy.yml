@@ -13,8 +13,8 @@ on:
       #   # Default value if no value is explicitly provided
       #   default: 'Memory Matrix'   
 
-      build-options:
-        description: 'Build Options'
+      # build-options:
+      #   description: 'Build Options'
       enterprise-provisioning-profile:
         description: 'Enterprise Provisioning Profile'
         # Default value if no value is explicitly provided
@@ -55,7 +55,7 @@ on:
         default: true
       app-store-app:
         type: boolean
-      #   description: App Store App        
+        description: App Store App        
       # run-workflow-size-check:
       #   type: boolean
       #   description: Run Workflow Size Checks
