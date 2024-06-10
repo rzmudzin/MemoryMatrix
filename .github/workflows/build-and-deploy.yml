@@ -12,7 +12,9 @@ on:
       #   description: 'Build Name'
       #   # Default value if no value is explicitly provided
       #   default: 'Memory Matrix'   
-        
+
+      build-options:
+        description: 'Build Options'
       enterprise-provisioning-profile:
         description: 'Enterprise Provisioning Profile'
         # Default value if no value is explicitly provided
