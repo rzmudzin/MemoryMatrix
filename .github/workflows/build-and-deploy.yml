@@ -55,10 +55,10 @@ on:
         default: true
       app-store-app:
         type: boolean
-        description: App Store App        
-      run-workflow-size-check:
-        type: boolean
-        description: Run Workflow Size Checks
+      #   description: App Store App        
+      # run-workflow-size-check:
+      #   type: boolean
+      #   description: Run Workflow Size Checks
       runner:
         type: choice
         description: Tools Version
