@@ -125,6 +125,7 @@ jobs:
               ref: context.ref,
               inputs: {
                 strategy: "Single Build",
+                runner: "15"
               }
             })
             
