@@ -16,6 +16,7 @@ on:
         options:
         - "Single Build"
         - "Dispatched Build"
+        - "Scripts Build"
       dsap:
         description: 'DSAP Environment(tst1/tst2/uat1/uat2)'
         default: 'tst1'
@@ -130,4 +131,18 @@ jobs:
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
 
+  scripts-build:
+    if: inputs.strategy == 'Scripts Build'
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
 
+      - name: Scripts Build Calculate New Build Number
+        run: |
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
+      - name: Scripts Build
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log("Just a simple test");
