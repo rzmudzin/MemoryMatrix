@@ -151,6 +151,17 @@ jobs:
             let dsapValues = dsap.split(",")
             for (i = 0; i < dsapValues.length; i++) {
               console.log(dsapValues[i]);
+              github.rest.actions.createWorkflowDispatch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: "dispatched_builds.yml",
+                ref: context.ref,
+                inputs: {
+                  strategy: "Single Build",
+                  runner: "15",
+                  build_options: dsapValues[i],
+                }
+              })              
             }
             
             console.log("Just a simple test");
