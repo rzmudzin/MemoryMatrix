@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Build and Deploy
+name: Dispatched Builds
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -125,7 +125,7 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "build-and-deploy.yml",
+              workflow_id: "dispatched_builds.yml",
               ref: context.ref,
               inputs: {
                 strategy: "Single Build",
@@ -140,15 +140,15 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "build-and-deploy.yml",
+              workflow_id: "dispatched_builds.yml",
               ref: context.ref,
               inputs: {
                 strategy: "Single Build",
                 runner: "15",
-                build_options: "V2"
+                build_options: "V2",
               }
             })
-
+            
   build-single-build:
     if: inputs.strategy == 'Single Build'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
@@ -163,4 +163,5 @@ jobs:
         run: |
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
+
 
