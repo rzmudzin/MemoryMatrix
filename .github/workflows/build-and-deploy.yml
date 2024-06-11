@@ -13,7 +13,7 @@ on:
       #   # Default value if no value is explicitly provided
       #   default: 'Memory Matrix'   
 
-      build-options:
+      build_options:
         description: 'Build Options'
       enterprise-provisioning-profile:
         description: 'Enterprise Provisioning Profile'
@@ -141,7 +141,7 @@ jobs:
               inputs: {
                 strategy: "Single Build",
                 runner: "15",
-                build-options: "V2"
+                build_options: "V2"
               }
             })
             
@@ -166,7 +166,7 @@ jobs:
       - name: Single Build Options Echo
         run: |
             echo "Exectuing Single Build Options:"
-            echo "Options: ${{inputs.build-options}}"
+            echo "Options: ${{inputs.build_options}}"
 
   build-via-composite-action:
     # if: inputs.build-using-composite-action == true 
