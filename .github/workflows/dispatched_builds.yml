@@ -130,22 +130,6 @@ jobs:
               inputs: {
                 strategy: "Single Build",
                 runner: "15",
-                build_options: "V1"
-              }
-            })
-      - name: Trigger Single Build V2
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "dispatched_builds.yml",
-              ref: context.ref,
-              inputs: {
-                strategy: "Single Build",
-                runner: "15",
-                build_options: "V2"
               }
             })
 
