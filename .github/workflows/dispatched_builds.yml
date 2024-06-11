@@ -1,1 +1,167 @@
+# This is a basic workflow that is manually triggered
+
+name: Build and Deploy
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      # name:
+      #   description: 'Build Name'
+      #   # Default value if no value is explicitly provided
+      #   default: 'Memory Matrix'   
+
+      build_options:
+        description: 'Build Options'
+      enterprise-provisioning-profile:
+        description: 'Enterprise Provisioning Profile'
+        # Default value if no value is explicitly provided
+        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'  
+      enterprise-signing-certificate:
+        description: 'Enterprise Signing Certificate'
+        # Default value if no value is explicitly provided
+        default: '26A81253A00C87FE083195619F265D8423F790B7'
+
+      strategy:
+        type: choice
+        description: Build Strategy
+        options:
+        - "Composite Action"        
+        - "Inline"  
+        - "Single Build"
+        - "Dispatched Build"
+      # build-using-composite-action:
+      #   type: boolean
+      #   description: Build Via Composite Action
+      #   default: true
+        
+      job-type:
+        type: choice
+        description: Job Type
+        options:
+        - "Build Archive"        
+        - "Build IPA"        
+        - "Deployment"
+      deploy-via-azure:
+        type: boolean
+        description: Deploy Via Azure
+
+      attach-ipa:
+        type: boolean
+        description: Attach IPA to Run        
+      enterprise-app:
+        type: boolean
+        description: Enterprise App
+        default: true
+      app-store-app:
+        type: boolean
+        description: App Store App        
+      # run-workflow-size-check:
+      #   type: boolean
+      #   description: Run Workflow Size Checks
+      runner:
+        type: choice
+        description: Tools Version
+        options:
+        - "14"        
+        - "15"           
+env:
+    scheme: 'MemoryMatrix'
+    appName: 'MemoryMatrix'
+    ipaName: MemoryMatrix.ipa
+    appCenterToken: xxxxx2d2090d16faddb2421e47676b2016566225
+    appCenterAppID: 'xxxxxxxx-70d1-d4b8-cd92-53e578e87523'
+    appVersion: 2.2.6
+    ascKeyId: ${{secrets.APP_STORE_CONNECT_API_KEY}}
+    ascIssuerId: ${{secrets.APP_STORE_CONNECT_API_ISSUER_ID}}    
+    APP_SIZE_RESTRICTIONS: ${{vars.APP_SIZE_RESTRICTIONS}}
+    ARCHIVE_PATH:  "${{ github.workspace }}/bld/MemoryMatrixApp.xcarchive"
+    IPA_PATH:  "${{ github.workspace }}/ipa"
+    
+jobs:
+  start-runner:
+   if: ${{ inputs.deploy-via-azure }}
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Start Azure Runner
+        if: ${{ inputs.deploy-via-azure }}
+        run: |          
+          echo "Starting Runner..."  
+          ./scripts/start-runner.sh -b "${newBuildNumber}" -v "$appVersion"
+
+  inputs-validation:
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+      - name: Inputs Validation
+        run: |
+            echo "Validating Inputs..."  
+            if ${{ inputs.attach-ipa }} == "true"; then
+              echo "Validating attach IPA request: Does build create an IPA?"
+              if [ "${{ inputs.job-type }}" != "Build IPA" ] && [ "${{ inputs.job-type }}" != "Deployment" ]; then
+                echo "::error file={Inputs Validation},line={1},endLine={1},title={Inputs Validation}::{Attach IPA requested but job type does not create an IPA}"
+                exit 1
+              fi
+            fi
+
+  dispatched-build:
+    if: inputs.strategy == 'Dispatched Build'
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:     
+      - name: Dispatched Build Calculate New Build Number
+        run: |
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV     
+      - name: Trigger Single Build V1
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "build-and-deploy.yml",
+              ref: context.ref,
+              inputs: {
+                strategy: "Single Build",
+                runner: "15",
+                build_options: "V1"
+              }
+            })
+      - name: Trigger Single Build V2
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "build-and-deploy.yml",
+              ref: context.ref,
+              inputs: {
+                strategy: "Single Build",
+                runner: "15",
+                build_options: "V2"
+              }
+            })
+
+  build-single-build:
+    if: inputs.strategy == 'Single Build'
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+
+      - name: Single Build Calculate New Build Number
+        run: |
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
+      - name: Single Build Options Echo
+        run: |
+            echo "Exectuing Single Build Options:"
+            echo "Options: ${{inputs.build_options}}"
+
 
