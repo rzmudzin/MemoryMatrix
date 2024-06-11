@@ -29,7 +29,9 @@ on:
         description: Build Strategy
         options:
         - "Composite Action"        
-        - "Inline"           
+        - "Inline"  
+        - "Four Builds"
+        - "Single Build"
       # build-using-composite-action:
       #   type: boolean
       #   description: Build Via Composite Action
@@ -106,6 +108,22 @@ jobs:
                 exit 1
               fi
             fi
+            
+  build-four-builds:
+    if: inputs.strategy == 'Four Builds'
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+      - name: Calculate New Build Number
+        run: |
+            echo "Exectuing Four Builds"
+
+  build-single-build:
+    if: inputs.strategy == 'Single Builds'
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:
+      - name: Calculate New Build Number
+        run: |
+            echo "Exectuing Single Build"
 
   build-via-composite-action:
     # if: inputs.build-using-composite-action == true 
