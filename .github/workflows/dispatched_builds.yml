@@ -145,7 +145,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log("Options: " + ${{inputs.build_options}});
+            console.log("Options: ${{inputs.build_options}}");
             console.log("Just a simple test");
             let x;
             for (x = 2; x <= 4; x++) {
