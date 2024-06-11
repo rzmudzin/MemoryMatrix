@@ -114,7 +114,7 @@ jobs:
     if: inputs.strategy == 'Dispatched Build'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
-      - name: Trigger Single Build
+      - name: Trigger Single Build V1
         uses: actions/github-script@v6
         with:
           script: |
@@ -125,7 +125,23 @@ jobs:
               ref: context.ref,
               inputs: {
                 strategy: "Single Build",
-                runner: "15"
+                runner: "15",
+                build-options: "V1"
+              }
+            })
+      - name: Trigger Single Build V2
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "build-and-deploy.yml",
+              ref: context.ref,
+              inputs: {
+                strategy: "Single Build",
+                runner: "15",
+                build-options: "V2"
               }
             })
             
@@ -133,7 +149,7 @@ jobs:
     if: inputs.strategy == 'Four Builds'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
-      - name: Calculate New Build Number
+      - name: Build Four Builds
         run: |
             echo "Exectuing Four Builds"
 
@@ -141,9 +157,16 @@ jobs:
     if: inputs.strategy == 'Single Build'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
-      - name: Calculate New Build Number
+
+      - name: Single Build Calculate New Build Number
         run: |
-            echo "Exectuing Single Build"
+            newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
+            echo "New Build Number: $newBuildNumber"
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
+      - name: Single Build Options Echo
+        run: |
+            echo "Exectuing Single Build Options:"
+            echo "Options: ${{inputs.build-options}}"
 
   build-via-composite-action:
     # if: inputs.build-using-composite-action == true 
