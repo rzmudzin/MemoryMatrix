@@ -126,7 +126,7 @@ jobs:
               inputs: {
                 strategy: "Single Build",
                 runner: "15",
-                build-options: "V1"
+                build_options: "V1"
               }
             })
       - name: Trigger Single Build V2
