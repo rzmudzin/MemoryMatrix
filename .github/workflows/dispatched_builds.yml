@@ -8,59 +8,24 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      # name:
-      #   description: 'Build Name'
-      #   # Default value if no value is explicitly provided
-      #   default: 'Memory Matrix'   
-
       build_options:
         description: 'Build Options'
-      enterprise-provisioning-profile:
-        description: 'Enterprise Provisioning Profile'
-        # Default value if no value is explicitly provided
-        default: 'dae3007d-dbd8-4f85-bfbd-5cbef813cd3b'  
-      enterprise-signing-certificate:
-        description: 'Enterprise Signing Certificate'
-        # Default value if no value is explicitly provided
-        default: '26A81253A00C87FE083195619F265D8423F790B7'
-
       strategy:
         type: choice
         description: Build Strategy
         options:
-        - "Composite Action"        
-        - "Inline"  
         - "Single Build"
         - "Dispatched Build"
-      # build-using-composite-action:
-      #   type: boolean
-      #   description: Build Via Composite Action
-      #   default: true
-        
-      job-type:
+      dsap:
+        description: 'DSAP Environment(tst1/tst2/uat1/uat2)'
+        default: 'tst1'
+      fusionid:
         type: choice
-        description: Job Type
+        description: Fusion Set
         options:
-        - "Build Archive"        
-        - "Build IPA"        
-        - "Deployment"
-      deploy-via-azure:
-        type: boolean
-        description: Deploy Via Azure
-
-      attach-ipa:
-        type: boolean
-        description: Attach IPA to Run        
-      enterprise-app:
-        type: boolean
-        description: Enterprise App
-        default: true
-      app-store-app:
-        type: boolean
-        description: App Store App        
-      # run-workflow-size-check:
-      #   type: boolean
-      #   description: Run Workflow Size Checks
+        - "MITM"
+        - "No MITM"
+        default: "MITM"        
       runner:
         type: choice
         description: Tools Version
