@@ -25,6 +25,7 @@ on:
         options:
         - "MITM"
         - "No MITM"
+        - "ALL"
         default: "MITM"        
       runner:
         type: choice
@@ -95,7 +96,7 @@ jobs:
               inputs: {
                 strategy: "Single Build",
                 runner: "15",
-                build_options: "V1"
+                build_options: "V1${{inputs.runner}}"
               }
             })
       - name: Trigger Single Build V2
