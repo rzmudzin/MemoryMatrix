@@ -14,9 +14,9 @@ on:
         type: choice
         description: Build Strategy
         options:
+        - "Scripts Build"        
         - "Single Build"
         - "Dispatched Build"
-        - "Scripts Build"
       dsap:
         description: 'DSAP Environment(tst1/tst2/uat1/uat2)'
         default: 'tst1'
@@ -153,11 +153,15 @@ jobs:
             let options = "${{inputs.build_options}}";
             let dsap = "${{inputs.dsap}}";
             let fusionid = "${{inputs.dsap}}";
-            console.log("Options: ${{inputs.build_options}}");
+            let newBuildNumber = "${newBuildNumber}";
+            console.log("Options: " + options);
+            console.log("DSAP: " + dsap);
+            console.log("Fusion Id: " + fusionid);
+            console.log("New Build Number: " + newBuildNumber);
             let dsapValues = dsap.split(",")
             for (i = 0; i < dsapValues.length; i++) {
               console.log(dsapValues[i]);
-              let buildOptions = fusionid + ";" + dsapValues[i];
+              let buildOptions = fusionid + ";" + dsapValues[i] + ";" + newBuildNumber + ";testing123";
               github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
