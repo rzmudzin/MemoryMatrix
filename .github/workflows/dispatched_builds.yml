@@ -143,14 +143,21 @@ jobs:
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
       - name: Scripts Build
         uses: actions/github-script@v6
+        env:
+          FIRST_NAME: Mona
+          LAST_NAME: Octocat
         with:
           script: |
+            const { FIRST_NAME, LAST_NAME } = process.env
+            console.log(`Hello ${FIRST_NAME} ${LAST_NAME}`)
             let options = "${{inputs.build_options}}";
             let dsap = "${{inputs.dsap}}";
+            let fusionid = "${{inputs.dsap}}";
             console.log("Options: ${{inputs.build_options}}");
             let dsapValues = dsap.split(",")
             for (i = 0; i < dsapValues.length; i++) {
               console.log(dsapValues[i]);
+              let buildOptions = fusionid + ";" + dsapValues[i];
               github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -159,7 +166,7 @@ jobs:
                 inputs: {
                   strategy: "Single Build",
                   runner: "15",
-                  build_options: dsapValues[i],
+                  build_options: buildOptions,
                 }
               })              
             }
