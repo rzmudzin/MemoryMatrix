@@ -125,7 +125,7 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: "build-and-deploy.yml",
+              workflow_id: "dispatched_builds.yml",
               ref: context.ref,
               inputs: {
                 strategy: "Single Build",
