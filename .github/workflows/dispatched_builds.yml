@@ -148,7 +148,10 @@ jobs:
             let options = "${{inputs.build_options}}";
             let dsap = "${{inputs.dsap}}";
             console.log("Options: ${{inputs.build_options}}");
-
+            let dsapValues = dsap.split(",")
+            for (i = 0; i < dsapValues.length; i++) {
+              console.log(dsapValues[i]);
+            }
             
             console.log("Just a simple test");
             let x;
