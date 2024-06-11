@@ -145,11 +145,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            console.log("Options: " + ${{inputs.build_options}});
             console.log("Just a simple test");
             let x;
-            // for loop begins when x=2
-            // and runs till x <=4
             for (x = 2; x <= 4; x++) {
               console.log("Value of x:" + x);
             }
-            console.log(context)
+            //console.log(context)
