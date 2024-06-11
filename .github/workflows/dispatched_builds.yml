@@ -153,7 +153,7 @@ jobs:
             let options = "${{inputs.build_options}}";
             let dsap = "${{inputs.dsap}}";
             let fusionid = "${{inputs.fusionid}}";
-            let newBuildNumber = "${newBuildNumber}";
+            let newBuildNumber = "${{env.newBuildNumber}}";
             console.log("Options: " + options);
             console.log("DSAP: " + dsap);
             console.log("Fusion Id: " + fusionid);
