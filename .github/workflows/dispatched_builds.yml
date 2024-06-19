@@ -163,7 +163,12 @@ jobs:
               //console.log("Processing Fusion Set: " + fusionSets[i]);
               let dsapValues = dsap.split(",")
               for (dsapIndex = 0; dsapIndex < dsapValues.length; dsapIndex++) {
-                let buildOptions = fusionSets[i] + ";" + dsapValues[dsapIndex] + newBuildNumber
+                let buildOptions = fusionSets[i] + ";" + dsapValues[dsapIndex] + ";" + newBuildNumber + ";";
+                if (dsapIndex+1 == dsapValues.length && i+1 == fusionSets.length) {
+                  buildOptions += "true";
+                } else {
+                  buildOptions += "false";
+                }
                 console.log(buildOptions);
                 //console.log(fusionSets[i] + ";" + dsapValues[dsapIndex]);
               }
