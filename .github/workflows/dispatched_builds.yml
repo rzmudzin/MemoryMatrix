@@ -148,8 +148,8 @@ jobs:
           LAST_NAME: Octocat
         with:
           script: |
-            const { FIRST_NAME, LAST_NAME } = process.env
-            console.log(`Hello ${FIRST_NAME} ${LAST_NAME}`)
+            //const { FIRST_NAME, LAST_NAME } = process.env
+            //console.log(`Hello ${FIRST_NAME} ${LAST_NAME}`)
             let options = "${{inputs.build_options}}";
             let dsap = "${{inputs.dsap}}";
             let fusionid = "${{inputs.fusionid}}";
