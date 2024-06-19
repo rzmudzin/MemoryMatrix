@@ -182,21 +182,22 @@ jobs:
     if: inputs.fusionid == 'ALL' || contains( inputs.dsap, ',' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
-
+      - name: Download Recent Successful Commit
+        uses: mobile/action-download-artifact@master
+        with:
+          name: commitlog
+          github_token: ${{github.token}}
+          check_artifacts: true
+          search_artifacts: true
+          if_no_artifact_found: warn
       - name: Scripts Build Calculate New Build Number
         run: |
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
-            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
-            echo "Build Number: $newBuildNumber" >> commitlog.txt
-      #       echo "Run Id: ${{ github.event.workflow_run.id }}" >> commitlog.txt
-      # - name: Set Successful Commit
-      #   run: git rev-parse HEAD > commitlog.txt            
-      # - name: Upload commit
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #    name: commitlog
-      #    path: commitlog.txt            
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV  
+            echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
+            # echo "Build Number: $newBuildNumber" >> commitlog.txt
+      #       echo "Run Id: ${{ github.event.workflow_run.id }}" >> commitlog.txt         
       - name: Scripts Build
         uses: actions/github-script@v6
         env:
