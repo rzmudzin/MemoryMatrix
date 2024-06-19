@@ -176,7 +176,7 @@ jobs:
             else
               echo "Not a child build"
               lastCommitHash=$(cat commitlog.txt)
-              echo "lastSuccessfulBuildCommit=${lastCommitHash}" >> $GITHUB_ENV
+              echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
             fi
             echo "Fusion Id: ${fusionId}"
             echo "DSAP: ${dsap}"
