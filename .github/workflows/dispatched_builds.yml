@@ -35,6 +35,7 @@ on:
         - "14"        
         - "15"           
 env:
+    lastSuccessfulBuildCommit: af8424b92dcfd9f095438526661bf0030d9f6201
     scheme: 'MemoryMatrix'
     appName: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
@@ -192,6 +193,7 @@ jobs:
             let dsap = "${{inputs.dsap}}";
             let fusionid = "${{inputs.fusionid}}";
             let newBuildNumber = "${{env.newBuildNumber}}";
+            let lastSuccessfulBuildCommit = "${{env.lastSuccessfulBuildCommit}}";
 
             fusionSets = ['No MITM', 'MITM'];
             if (fusionid != "ALL") {
@@ -202,11 +204,12 @@ jobs:
               let dsapValues = dsap.split(",")
               for (dsapIndex = 0; dsapIndex < dsapValues.length; dsapIndex++) {
                 let buildOptions = fusionSets[i] + ";" + dsapValues[dsapIndex] + ";" + newBuildNumber + ";";
-                if (dsapIndex+1 == dsapValues.length && i+1 == fusionSets.length) {
-                  buildOptions += "true";
-                } else {
-                  buildOptions += "false";
-                }
+                buildOptions += lastSuccessfulBuildCommit;
+                //if (dsapIndex+1 == dsapValues.length && i+1 == fusionSets.length) {
+                //  buildOptions += "true";
+                //} else {
+                //  buildOptions += "false";
+                //}
                 console.log(buildOptions);
                 github.rest.actions.createWorkflowDispatch({
                     owner: context.repo.owner,
