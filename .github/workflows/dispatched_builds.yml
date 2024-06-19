@@ -36,8 +36,8 @@ on:
         - "15"           
 env:
     lastSuccessfulBuildCommit: af8424b92dcfd9f095438526661bf0030d9f6201
-    fusionId: "MITM"
-    dsap: "tst1"
+    fusionId: ${{inputs.fusionid}}
+    dsap: ${{inputs.dsap}}
     parentBuildNumber: ""
     scheme: 'MemoryMatrix'
     appName: 'MemoryMatrix'
