@@ -77,7 +77,7 @@ jobs:
             fi
             
   evaluate-build-inputs:
-    if: inputs.fusionid != 'ALL' && contains( inputs.dsap, ',' ) == false
+    # if: inputs.fusionid != 'ALL' && contains( inputs.dsap, ',' ) == false
     # if: inputs.fusionid == 'ALL' || contains( inputs.dsap, ',' )
     # if: contains( inputs.dsap, ',' ) || contains(inputs.fusionid, 'ALL')
     # if: contains( inputs.dsap, ',' ) || ${{ inputs.fusionid == 'ALL' }} 
@@ -131,8 +131,8 @@ jobs:
             })
             
   build-single-build:
-    if: inputs.strategy == 'Single Build'
-    # if: inputs.fusionid != 'ALL' && contains( inputs.dsap, ',' ) == false
+    # if: inputs.strategy == 'Single Build'
+    if: inputs.fusionid != 'ALL' && contains( inputs.dsap, ',' ) == false
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
 
@@ -162,7 +162,8 @@ jobs:
 
 
   scripts-build:
-    if: inputs.strategy == 'Scripts Build'
+    # if: inputs.strategy == 'Scripts Build'
+    if: inputs.fusionid == 'ALL' || contains( inputs.dsap, ',' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
 
