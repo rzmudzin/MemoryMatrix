@@ -154,27 +154,37 @@ jobs:
             let dsap = "${{inputs.dsap}}";
             let fusionid = "${{inputs.fusionid}}";
             let newBuildNumber = "${{env.newBuildNumber}}";
-            console.log("Options: " + options);
-            console.log("DSAP: " + dsap);
-            console.log("Fusion Id: " + fusionid);
-            console.log("New Build Number: " + newBuildNumber);
-            let dsapValues = dsap.split(",")
-            for (i = 0; i < dsapValues.length; i++) {
-              console.log("Processing DSAP " + dsapValues[i]);
-              let buildOptions = fusionid + ";" + dsapValues[i] + ";" + newBuildNumber + ";testing123";
-              console.log("Dispatched Build Options: " + buildOptions);
-              github.rest.actions.createWorkflowDispatch({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                workflow_id: "dispatched_builds.yml",
-                ref: context.ref,
-                inputs: {
-                  strategy: "Single Build",
-                  runner: "15",
-                  build_options: buildOptions,
-                }
-              })              
+
+            fusionSets = ['No MITM', 'MITM'];
+            if (fusionid != "ALL") {
+              fusionSets = [fusionid];
             }
+            for (i = 0; i < fusionSets.length; i++) {
+              console.log("Processing Fusion Set: " + fusionSets[i];
+            }
+            
+            //console.log("Options: " + options);
+            //console.log("DSAP: " + dsap);
+            //console.log("Fusion Id: " + fusionid);
+            //console.log("New Build Number: " + newBuildNumber);
+
+            //let dsapValues = dsap.split(",")
+            //for (i = 0; i < dsapValues.length; i++) {
+            //  console.log("Processing DSAP " + dsapValues[i]);
+            //  let buildOptions = fusionid + ";" + dsapValues[i] + ";" + newBuildNumber + ";testing123";
+            //  console.log("Dispatched Build Options: " + buildOptions);
+            //  github.rest.actions.createWorkflowDispatch({
+            //    owner: context.repo.owner,
+            //    repo: context.repo.repo,
+            //    workflow_id: "dispatched_builds.yml",
+            //    ref: context.ref,
+            //    inputs: {
+            //      strategy: "Single Build",
+            //      runner: "15",
+            //      build_options: buildOptions,
+            //    }
+            //  })
+            //}
             
             //console.log("Just a simple test");
             //let x;
