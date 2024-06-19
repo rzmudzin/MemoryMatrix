@@ -142,6 +142,10 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Single Build Calculate New Build Number
         run: |
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
