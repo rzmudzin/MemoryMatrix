@@ -152,15 +152,22 @@ jobs:
             attachCommitHash="true"
             if [[ "${{inputs.build_options}}" == *";"* ]]; then
               echo "Child Build Inputs Present"
-              IFS=';' read fusionId dsap parentBuildNumber attachCommitHash <<< "${{inputs.build_options}}"
+              IFS=';' read fusionId dsap parentBuildNumber lastCommitHash <<< "${{inputs.build_options}}"
             else
               echo "Not a chold build"
             fi
             echo "Fusion Id: ${fusionId}"
             echo "DSAP: ${dsap}"
             echo "Parent Build Number: ${parentBuildNumber}"
-            echo "Attach Commit Hash: ${attachCommitHash}"
+            echo "Last Commit Hash: ${lastCommitHash}"
 
+      - name: Set Successful Commit
+        run: git rev-parse HEAD > commitlog.txt            
+      - name: Upload commit
+        uses: actions/upload-artifact@v3
+        with:
+         name: commitlog
+         path: commitlog.txt            
 
   scripts-build:
     # if: inputs.strategy == 'Scripts Build'
@@ -174,12 +181,14 @@ jobs:
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
             echo "Build Number: $newBuildNumber" >> commitlog.txt
-            echo "Run Id: ${{ github.event.workflow_run.id }}" >> commitlog.txt
-      - name: Upload commit
-        uses: actions/upload-artifact@v3
-        with:
-         name: commitlog
-         path: commitlog.txt            
+      #       echo "Run Id: ${{ github.event.workflow_run.id }}" >> commitlog.txt
+      # - name: Set Successful Commit
+      #   run: git rev-parse HEAD > commitlog.txt            
+      # - name: Upload commit
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #    name: commitlog
+      #    path: commitlog.txt            
       - name: Scripts Build
         uses: actions/github-script@v6
         env:
