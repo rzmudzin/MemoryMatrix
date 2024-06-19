@@ -166,8 +166,6 @@ jobs:
       - name: Update Environment
         run: |
             echo "Updating Environment:"            
-            find . -name "commitlog*"
-            cat commitlog.txt
             fusionIdValue="MITM"
             dsapValue="tst1"
             parentBuildNumbeValue=""
