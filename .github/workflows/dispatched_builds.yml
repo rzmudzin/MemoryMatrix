@@ -77,7 +77,7 @@ jobs:
             fi
             
   evaluate-build-inputs:
-    if: contains( inputs.strategy, 'Dispatched' ) || contains( inputs.strategy, 'Build' )
+    if: contains( inputs.dsap, ',' ) || ${{ inputs.fusionid }} == "ALL" )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
       - name: Evaluate Build Inputs
