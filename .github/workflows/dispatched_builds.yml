@@ -172,6 +172,13 @@ jobs:
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
+            echo $newBuildNumber >> commitlog.txt
+            echo ${{ github.event.workflow_run.id }} >> commitlog.txt
+      - name: Upload commit
+        uses: actions/upload-artifact@v3
+        with:
+         name: commitlog
+         path: commitlog.txt            
       - name: Scripts Build
         uses: actions/github-script@v6
         env:
