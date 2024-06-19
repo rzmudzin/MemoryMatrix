@@ -160,7 +160,7 @@ jobs:
               fusionSets = [fusionid];
             }
             for (i = 0; i < fusionSets.length; i++) {
-              console.log("Processing Fusion Set: " + fusionSets[i];
+              console.log("Processing Fusion Set: " + fusionSets[i]);
             }
             
             //console.log("Options: " + options);
