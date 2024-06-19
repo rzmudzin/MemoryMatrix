@@ -142,6 +142,15 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
 
+      - name: Download Recent Successful Commit
+        if: contains( inputs.build_options, ';' ) == false
+        uses: dawidd6/action-download-artifact@v4
+        with:
+          name: commitlog
+          github_token: ${{github.token}}
+          check_artifacts: true
+          search_artifacts: true
+          if_no_artifact_found: warn
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -183,7 +192,7 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
       - name: Download Recent Successful Commit
-        uses: dawidd6//action-download-artifact@v4
+        uses: dawidd6/action-download-artifact@v4
         with:
           name: commitlog
           github_token: ${{github.token}}
