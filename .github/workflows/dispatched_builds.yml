@@ -130,6 +130,21 @@ jobs:
         run: |
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
+            fusionId="MITM"
+            dsap="tst1"
+            parentBuildNumber=""
+            attachCommitHash="true"
+            if [[ "${{inputs.build_options}}" == *";"* ]]; then
+              echo "Child Build Inputs Present"
+              IFS=';' read fusionId dsap parentBuildNumber attachCommitHash <<< "$buildOptions"
+            else
+              echo "Not a chold build"
+            fi
+            echo "Fusion Id: ${fusionId}"
+            echo "DSAP: ${dsap}"
+            echo "Parent Build Number: ${parentBuildNumber}"
+            echo "Attach Commit Hash: ${attachCommitHash}"
+
 
   scripts-build:
     if: inputs.strategy == 'Scripts Build'
@@ -170,7 +185,17 @@ jobs:
                   buildOptions += "false";
                 }
                 console.log(buildOptions);
-                //console.log(fusionSets[i] + ";" + dsapValues[dsapIndex]);
+                github.rest.actions.createWorkflowDispatch({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    workflow_id: "dispatched_builds.yml",
+                    ref: context.ref,
+                    inputs: {
+                      strategy: "Single Build",
+                      runner: "15",
+                      build_options: buildOptions,
+                    }
+                })
               }
             }
             
