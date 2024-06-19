@@ -36,6 +36,9 @@ on:
         - "15"           
 env:
     lastSuccessfulBuildCommit: af8424b92dcfd9f095438526661bf0030d9f6201
+    fusionId: "MITM"
+    dsap: "tst1"
+    parentBuildNumber: ""
     scheme: 'MemoryMatrix'
     appName: 'MemoryMatrix'
     ipaName: MemoryMatrix.ipa
@@ -159,29 +162,36 @@ jobs:
         run: |
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
             echo "New Build Number: $newBuildNumber"
-            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV       
+            echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV    
+      - name: Update Environment
+        run: |
+            echo "Updating Environment:"            
+            find . -name "commitlog*"
+            cat commitlog.txt
+            fusionIdValue="MITM"
+            dsapValue="tst1"
+            parentBuildNumbeValue=""
+            lastCommitHash=""
+            if [[ "${{inputs.build_options}}" == *";"* ]]; then
+              echo "Child Build Inputs Present"
+              IFS=';' read fusionIdValue dsaValuep parentBuildNumberValue lastCommitHash <<< "${{inputs.build_options}}"
+              echo "fusionId=${fusionIdValue}" >> $GITHUB_ENV
+              echo "dsap=${dsapValue}" >> $GITHUB_ENV
+              echo "parentBuildNumbe=${parentBuildNumbeValue}" >> $GITHUB_ENV
+            else
+              echo "Not a child build"
+              lastCommitHash=$(cat commitlog.txt)
+            fi
+            echo "lastSuccessfulBuildCommit=${lastCommitHash}" >> $GITHUB_ENV
+            echo "Last Commit Hash: ${lastCommitHash}"
+            
       - name: Single Build Options Echo
         run: |
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
-            find . -name "commitlog*"
-            cat commitlog.txt
-            fusionId="MITM"
-            dsap="tst1"
-            parentBuildNumber=""
-            lastCommitHash=""
-            if [[ "${{inputs.build_options}}" == *";"* ]]; then
-              echo "Child Build Inputs Present"
-              IFS=';' read fusionId dsap parentBuildNumber lastCommitHash <<< "${{inputs.build_options}}"
-            else
-              echo "Not a child build"
-              lastCommitHash=$(cat commitlog.txt)
-              echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
-            fi
             echo "Fusion Id: ${fusionId}"
             echo "DSAP: ${dsap}"
             echo "Parent Build Number: ${parentBuildNumber}"
-            echo "Last Commit Hash: ${lastCommitHash}"
             echo "Last Successful Build Commit: ${lastSuccessfulBuildCommit}"
 
       - name: Set Successful Commit
