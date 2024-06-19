@@ -84,7 +84,7 @@ jobs:
         run: |
             echo "Build Strategy: ${{inputs.strategy}}"
             
-  dispatched-build:
+  run-dispatched-builds:
     if: inputs.strategy == 'Dispatched Build'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
