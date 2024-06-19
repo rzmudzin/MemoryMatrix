@@ -169,18 +169,20 @@ jobs:
             fusionId="MITM"
             dsap="tst1"
             parentBuildNumber=""
+            lastCommitHash=""
             if [[ "${{inputs.build_options}}" == *";"* ]]; then
               echo "Child Build Inputs Present"
               IFS=';' read fusionId dsap parentBuildNumber lastCommitHash <<< "${{inputs.build_options}}"
             else
               echo "Not a child build"
-              lastSuccessfulBuildCommit=$(cat commitlog.txt)
-              echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
+              lastCommitHash=$(cat commitlog.txt)
+              echo "lastSuccessfulBuildCommit=${lastCommitHash}" >> $GITHUB_ENV
             fi
             echo "Fusion Id: ${fusionId}"
             echo "DSAP: ${dsap}"
             echo "Parent Build Number: ${parentBuildNumber}"
             echo "Last Commit Hash: ${lastCommitHash}"
+            echo "Last Successful Build Commit: ${lastSuccessfulBuildCommit}"
 
       - name: Set Successful Commit
         run: |
