@@ -85,6 +85,10 @@ jobs:
     # if: contains( inputs.dsap, ',' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Evaluate Build Inputs
         run: |
             echo "DSAP: ${{ inputs.dsap }}"
