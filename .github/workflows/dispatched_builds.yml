@@ -75,10 +75,17 @@ jobs:
                 exit 1
               fi
             fi
-
-  dispatched-build:
-    # if: inputs.strategy == 'Dispatched Build'
+            
+  evaluate-build-inputs:
     if: contains( inputs.strategy, 'Dispatched' ) || contains( inputs.strategy, 'Build' )
+    runs-on: ["self-hosted", "x${{inputs.runner}}"]
+    steps:     
+      - name: Evaluate Build Inputs
+        run: |
+            echo "Build Type: ${{inputs.runner}}"
+            
+  dispatched-build:
+    if: inputs.strategy == 'Dispatched Build'
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
       - name: Dispatched Build Calculate New Build Number
