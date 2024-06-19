@@ -142,6 +142,10 @@ jobs:
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Download Recent Successful Commit
         if: contains( inputs.build_options, ';' ) == false
         uses: dawidd6/action-download-artifact@v4
@@ -151,10 +155,6 @@ jobs:
           check_artifacts: true
           search_artifacts: true
           if_no_artifact_found: warn
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
       - name: Single Build Calculate New Build Number
         run: |
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
@@ -164,6 +164,7 @@ jobs:
         run: |
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
+            find . -name "commitlog*"
             fusionId="MITM"
             dsap="tst1"
             parentBuildNumber=""
