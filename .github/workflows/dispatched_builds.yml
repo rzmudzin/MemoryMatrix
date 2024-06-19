@@ -149,7 +149,6 @@ jobs:
             fusionId="MITM"
             dsap="tst1"
             parentBuildNumber=""
-            attachCommitHash="true"
             if [[ "${{inputs.build_options}}" == *";"* ]]; then
               echo "Child Build Inputs Present"
               IFS=';' read fusionId dsap parentBuildNumber lastCommitHash <<< "${{inputs.build_options}}"
