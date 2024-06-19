@@ -89,6 +89,7 @@ jobs:
         run: |
             echo "DSAP: ${{ inputs.dsap }}"
             echo "Fusion ID: ${{ inputs.fusionid }}"
+            git rev-parse HEAD
             echo "Build Strategy: ${{inputs.strategy}}"
             
   run-dispatched-builds:
