@@ -77,7 +77,8 @@ jobs:
             fi
 
   dispatched-build:
-    if: inputs.strategy == 'Dispatched Build'
+    # if: inputs.strategy == 'Dispatched Build'
+    if: contains( inputs.strategy, 'Dispatched' ) || contains( inputs.strategy, 'Build' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
       - name: Dispatched Build Calculate New Build Number
