@@ -82,7 +82,7 @@ jobs:
     steps:     
       - name: Evaluate Build Inputs
         run: |
-            echo "Build Type: ${{inputs.runner}}"
+            echo "Build Strategy: ${{inputs.strategy}}"
             
   dispatched-build:
     if: inputs.strategy == 'Dispatched Build'
