@@ -136,7 +136,7 @@ jobs:
             attachCommitHash="true"
             if [[ "${{inputs.build_options}}" == *";"* ]]; then
               echo "Child Build Inputs Present"
-              IFS=';' read fusionId dsap parentBuildNumber attachCommitHash <<< "$buildOptions"
+              IFS=';' read fusionId dsap parentBuildNumber attachCommitHash <<< "${{inputs.build_options}}"
             else
               echo "Not a chold build"
             fi
