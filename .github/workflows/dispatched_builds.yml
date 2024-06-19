@@ -179,7 +179,9 @@ jobs:
             echo "Last Commit Hash: ${lastCommitHash}"
 
       - name: Set Successful Commit
-        run: git rev-parse HEAD > commitlog.txt            
+        run: |
+          git rev-parse HEAD > commitlog.txt            
+          cat commitlog.txt
       - name: Upload commit
         uses: actions/upload-artifact@v3
         with:
