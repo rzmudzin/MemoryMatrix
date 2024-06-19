@@ -172,6 +172,8 @@ jobs:
               IFS=';' read fusionId dsap parentBuildNumber lastCommitHash <<< "${{inputs.build_options}}"
             else
               echo "Not a child build"
+              lastSuccessfulBuildCommit=$(cat commitlog.txt)
+              echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
             fi
             echo "Fusion Id: ${fusionId}"
             echo "DSAP: ${dsap}"
@@ -207,8 +209,6 @@ jobs:
             echo "New Build Number: $newBuildNumber"
             echo "newBuildNumber=$newBuildNumber" >> $GITHUB_ENV  
             echo "lastSuccessfulBuildCommit=$(cat commitlog.txt)" >> $GITHUB_ENV
-            # echo "Build Number: $newBuildNumber" >> commitlog.txt
-      #       echo "Run Id: ${{ github.event.workflow_run.id }}" >> commitlog.txt         
       - name: Scripts Build
         uses: actions/github-script@v6
         env:
