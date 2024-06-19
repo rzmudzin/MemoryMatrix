@@ -160,10 +160,10 @@ jobs:
               fusionSets = [fusionid];
             }
             for (i = 0; i < fusionSets.length; i++) {
-              console.log("Processing Fusion Set: " + fusionSets[i]);
+              //console.log("Processing Fusion Set: " + fusionSets[i]);
               let dsapValues = dsap.split(",")
-              for (i = 0; i < dsapValues.length; i++) {
-                console.log("\tProcessing DSAP " + dsapValues[i]);
+              for (dsapIndex = 0; dsapIndex < dsapValues.length; dsapIndex++) {
+                console.log(fusionSets[i]) + ";" + dsapValues[dsapIndex]);
               }
             }
             
