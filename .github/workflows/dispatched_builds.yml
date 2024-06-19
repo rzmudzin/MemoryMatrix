@@ -165,6 +165,7 @@ jobs:
             echo "Exectuing Single Build Options:"
             echo "Options: ${{inputs.build_options}}"
             find . -name "commitlog*"
+            cat commitlog.txt
             fusionId="MITM"
             dsap="tst1"
             parentBuildNumber=""
