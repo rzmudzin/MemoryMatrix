@@ -77,7 +77,7 @@ jobs:
             fi
             
   evaluate-build-inputs:
-    if: contains( inputs.dsap, ',' ) || inputs.fusionid == 'ALL' )
+    if: contains( inputs.dsap, ',' ) || ${{ inputs.fusionid == 'ALL' }} 
     # if: contains( inputs.dsap, ',' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:     
