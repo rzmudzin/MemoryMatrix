@@ -1,5 +1,6 @@
 # MemoryMatrix
 
+A simple program to use as a test subject for CI/CD
 
 
 ## Getting started
