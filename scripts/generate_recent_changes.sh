@@ -2,6 +2,8 @@
 
 # Script to generate build notes (using git commit changes), and fail build if none
 
+echo "Generating change log..."
+
 FORCE_BUILD=false
 RECENT_COUNT=0
 PREPEND_LINES=()
@@ -48,6 +50,7 @@ if [ ${#CHANGES} -lt 5 ] ; then
     elif [ -z "$GIT_PREVIOUS_SUCCESSFUL_COMMIT" ] ; then
         CHANGES="- Initial build"
     else
+        echo "Failing build, no changes detected"
         exit 11  # Fail the build
     fi
 fi
@@ -63,5 +66,6 @@ done
 echo "${CHANGES}"
 
 #AppCenter limits release notes to 5000 bytes
+echo "Exporting changes to file $OUTPUT"
 MS_CHANGE_LIMIT=4980
 echo "${CHANGES::MS_CHANGE_LIMIT}" > $OUTPUT
