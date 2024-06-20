@@ -69,3 +69,5 @@ echo "${CHANGES}"
 echo "Exporting changes to file $OUTPUT"
 MS_CHANGE_LIMIT=4980
 echo "${CHANGES::MS_CHANGE_LIMIT}" > $OUTPUT
+find . -name "$OUTPUT"
+cat $OUTPUT
