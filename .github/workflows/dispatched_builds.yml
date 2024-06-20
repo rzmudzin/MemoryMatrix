@@ -98,6 +98,7 @@ jobs:
             echo "Fusion ID: ${{ inputs.fusionid }}"
             git rev-parse HEAD
             echo "Build Strategy: ${{inputs.strategy}}"
+            echo "Working Directory: ${GITHUB_WORKSPACE}"
             
   run-dispatched-builds:
     if: inputs.strategy == 'Dispatched Build'
