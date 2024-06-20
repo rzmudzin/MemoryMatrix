@@ -6,8 +6,8 @@ status=$?
 if [ $status -eq 11 ]
 then
     echo "Canceling Workflow. Child script returned exit code of $status"
-    npm install --prefix "${GH_SCRIPTS_PATH}/cancel-current-workflow-run" "${GH_SCRIPTS_PATH}/cancel-current-workflow-run"
-    node "${GH_SCRIPTS_PATH}/cancel-current-workflow-run/cancel-current-workflow-run.js" "${GITHUB_TOKEN}"
+    npm install --prefix "${GITHUB_WORKSPACE}/scripts/cancel-current-workflow-run" "${GITHUB_WORKSPACE}/scripts/cancel-current-workflow-run"
+    node "${GITHUB_WORKSPACE}/scripts/cancel-current-workflow-run/cancel-current-workflow-run.js" "${GITHUB_TOKEN}"
 else
     if [ $status -ne 0 ]
     then
