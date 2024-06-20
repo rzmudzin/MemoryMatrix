@@ -69,5 +69,8 @@ echo "${CHANGES}"
 echo "Exporting changes to file $OUTPUT"
 MS_CHANGE_LIMIT=4980
 echo "${CHANGES::MS_CHANGE_LIMIT}" > $OUTPUT
+pwd
+echo "Locating change log..."
 find . -name "$OUTPUT"
+echo "Logging change log..."
 cat $OUTPUT
