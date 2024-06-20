@@ -197,17 +197,17 @@ jobs:
         run: |
           git rev-parse HEAD > commitlog.txt            
           cat commitlog.txt
-      - name: Upload commit
-        uses: actions/upload-artifact@v3
-        with:
-         name: commitlog
-         path: commitlog.txt    
       - name: Generate Change Log
         env:
            GITHUB_TOKEN: ${{ github.token }}
         run: |
           "${GITHUB_WORKSPACE}/scripts/run_cancelable_script.sh" "${GITHUB_WORKSPACE}/scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
-    
+
+      - name: Upload commit
+        uses: actions/upload-artifact@v3
+        with:
+         name: commitlog
+         path: commitlog.txt        
       - name: Upload Change Log
         uses: actions/upload-artifact@v3
         with:
