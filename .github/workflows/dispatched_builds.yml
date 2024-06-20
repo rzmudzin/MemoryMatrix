@@ -204,6 +204,12 @@ jobs:
       - name: Generate Change Log
         run: |
           "./scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
+    
+      - name: Upload Change Log
+        uses: actions/upload-artifact@v3
+        with:
+         name: changelog
+         path: changeLog.txt  
 
   scripts-build:
     # if: inputs.strategy == 'Scripts Build'
