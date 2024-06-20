@@ -200,7 +200,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
          name: commitlog
-         path: commitlog.txt            
+         path: commitlog.txt    
+      - name: Generate Change Log
+        run: |
+          "./scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
 
   scripts-build:
     # if: inputs.strategy == 'Scripts Build'
