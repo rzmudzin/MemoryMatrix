@@ -1,6 +1,6 @@
 # MemoryMatrix
 
-A simple program to use as a test subject for CI/CD
+A simple program to use as a test subject for CI/CD. Executes the following functionality:
 
 1) Executing the build and archiving the project
 2) Creating a release package (ipa) and signing for enterprise and public app store distribution
