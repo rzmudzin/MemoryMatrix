@@ -204,7 +204,7 @@ jobs:
          path: commitlog.txt    
       - name: Generate Change Log
         run: |
-          "./scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
+          "${GITHUB_WORKSPACE}/scripts/run_cancelable_script.sh" "${GITHUB_WORKSPACE}/scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
     
       - name: Upload Change Log
         uses: actions/upload-artifact@v3
