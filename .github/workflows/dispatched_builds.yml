@@ -145,7 +145,6 @@ jobs:
     if: inputs.fusionid != 'ALL' && contains( inputs.dsap, ',' ) == false
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -192,11 +191,6 @@ jobs:
             echo "DSAP: ${dsap}"
             echo "Parent Build Number: ${parentBuildNumber}"
             echo "Last Successful Build Commit: ${lastSuccessfulBuildCommit}"
-
-      - name: Set Successful Commit
-        run: |
-          git rev-parse HEAD > commitlog.txt            
-          cat commitlog.txt
       - name: Generate Change Log
         env:
            GITHUB_TOKEN: ${{ github.token }}
@@ -204,6 +198,10 @@ jobs:
           # NOTE: Script below seems to only ever locate a single comment. Currently beyond the scope of this exercise but should be looked into
           "${GITHUB_WORKSPACE}/scripts/run_cancelable_script.sh" "${GITHUB_WORKSPACE}/scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
 
+      - name: Set Successful Commit
+        run: |
+          git rev-parse HEAD > commitlog.txt            
+          cat commitlog.txt
       - name: Upload commit
         uses: actions/upload-artifact@v3
         with:
@@ -220,6 +218,10 @@ jobs:
     if: inputs.fusionid == 'ALL' || contains( inputs.dsap, ',' )
     runs-on: ["self-hosted", "x${{inputs.runner}}"]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive    
       - name: Download Recent Successful Commit
         uses: dawidd6/action-download-artifact@v4
         with:
@@ -228,6 +230,13 @@ jobs:
           check_artifacts: true
           search_artifacts: true
           if_no_artifact_found: warn
+
+      - name: Generate Change Log
+        env:
+           GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          # NOTE: Script below seems to only ever locate a single comment. Currently beyond the scope of this exercise but should be looked into
+          "${GITHUB_WORKSPACE}/scripts/run_cancelable_script.sh" "${GITHUB_WORKSPACE}/scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"          
       - name: Scripts Build Calculate New Build Number
         run: |
             newBuildNumber=$(echo $((${{env.buildNumberBase}}+${{github.run_number}})))
