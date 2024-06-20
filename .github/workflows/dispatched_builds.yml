@@ -201,6 +201,7 @@ jobs:
         env:
            GITHUB_TOKEN: ${{ github.token }}
         run: |
+          # NOTE: Script below seems to only ever locate a single comment. Currently beyond the scope of this exercise but should be looked into
           "${GITHUB_WORKSPACE}/scripts/run_cancelable_script.sh" "${GITHUB_WORKSPACE}/scripts/generate_recent_changes.sh" -C "API: some-url" -C "Some additional notes" -c "${lastSuccessfulBuildCommit}" -o "changeLog.txt"
 
       - name: Upload commit
