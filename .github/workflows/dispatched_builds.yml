@@ -274,11 +274,6 @@ jobs:
               for (dsapIndex = 0; dsapIndex < dsapValues.length; dsapIndex++) {
                 let buildOptions = fusionSets[i] + ";" + dsapValues[dsapIndex] + ";" + newBuildNumber + ";";
                 buildOptions += lastSuccessfulBuildCommit;
-                //if (dsapIndex+1 == dsapValues.length && i+1 == fusionSets.length) {
-                //  buildOptions += "true";
-                //} else {
-                //  buildOptions += "false";
-                //}
                 console.log(buildOptions);
                 github.rest.actions.createWorkflowDispatch({
                     owner: context.repo.owner,
@@ -293,27 +288,4 @@ jobs:
                 })
               }
             }
-            
-            //console.log("Options: " + options);
-            //console.log("DSAP: " + dsap);
-            //console.log("Fusion Id: " + fusionid);
-            //console.log("New Build Number: " + newBuildNumber);
-
-            //let dsapValues = dsap.split(",")
-            //for (i = 0; i < dsapValues.length; i++) {
-            //  console.log("Processing DSAP " + dsapValues[i]);
-            //  let buildOptions = fusionid + ";" + dsapValues[i] + ";" + newBuildNumber + ";testing123";
-            //  console.log("Dispatched Build Options: " + buildOptions);
-            //  github.rest.actions.createWorkflowDispatch({
-            //    owner: context.repo.owner,
-            //    repo: context.repo.repo,
-            //    workflow_id: "dispatched_builds.yml",
-            //    ref: context.ref,
-            //    inputs: {
-            //      strategy: "Single Build",
-            //      runner: "15",
-            //      build_options: buildOptions,
-            //    }
-            //  })
-            //}
 
