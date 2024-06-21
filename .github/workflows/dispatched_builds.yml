@@ -230,7 +230,13 @@ jobs:
           check_artifacts: true
           search_artifacts: true
           if_no_artifact_found: warn
-
+      - name: Update Environment
+        run: |
+            echo "Updating Environment:"            
+            lastCommitHash=$(cat commitlog.txt)
+            echo "lastSuccessfulBuildCommit=${lastCommitHash}" >> $GITHUB_ENV
+            echo "Last Commit Hash: ${lastCommitHash}"
+            
       - name: Generate Change Log
         env:
            GITHUB_TOKEN: ${{ github.token }}
