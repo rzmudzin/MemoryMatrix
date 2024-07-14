@@ -41,4 +41,4 @@ newBuildNumber=$buildNumber
 
 archiveInfoPlist="$archivePath/Info.plist"
 infoPlist="$archivePath/Products/Applications/MemoryMatrix.app/Info.plist"
-ls -lah $infoPlist
+
